@@ -28,19 +28,22 @@ namespace mandel {
    private:
     static std::unique_ptr<FractalView> instance_; /**< The unique view instance */
 
-    int width_;                       /**< The width of the viewport*/
-    int height_;                      /**< The height of the viewport*/
-    SDL_Window* window_{nullptr};     /**< The SDL window to draw to*/
-    SDL_Renderer* renderer_{nullptr}; /**< The Renderer to use to display the window contents*/
-    bool running_{true};
+    int width_;                       /**< The width of the viewport. */
+    int height_;                      /**< The height of the viewport. */
+    SDL_Window* window_{nullptr};     /**< The SDL window to draw to. */
+    SDL_Renderer* renderer_{nullptr}; /**< The Renderer to use to display the window contents. */
+    bool running_{true};              /**< Indicates the main loop is still running. */
 
     FractalView(const FractalView&) = delete;
     FractalView& operator=(const FractalView&) = delete;
     FractalView(FractalView&&) = delete;
     FractalView& operator=(FractalView&&) = delete;
 
+    /** Respond user input */
     void handleInput();
+    /** Update the world */
     void updatePlot();
+    /** Draw the output */
     void generateOutput();
   };
 }  // namespace mandel
