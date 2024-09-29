@@ -8,6 +8,8 @@ using namespace std::chrono_literals;
 int main() {
   auto view = mandel::FractalView::init(1600, 900);
 
+  view->showPlot();
+
   // TODO: do other work here
   std::this_thread::sleep_for(5s);
 

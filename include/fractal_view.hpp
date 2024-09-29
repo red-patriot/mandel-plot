@@ -8,21 +8,22 @@
 namespace mandel {
   class FractalView {
    public:
-    static FractalView* init(int width, int height);
+    FractalView(int width, int height);
     ~FractalView();
 
-    void render();
+    static FractalView* init(int width, int height);
+
+    void showPlot();
 
    private:
 
-    static FractalView* instance_;
+    static std::unique_ptr<FractalView> instance_;
 
     int width_;
     int height_;
     SDL_Window* window_{nullptr};
     SDL_Renderer* renderer_{nullptr};
 
-    FractalView(int width, int height);
 
     FractalView(const FractalView&) = delete;
     FractalView& operator=(const FractalView&) = delete;
