@@ -55,13 +55,37 @@ namespace mandel {
   }
 
   void FractalView::showPlot() {
+    while (running_) {
+      handleInput();
+      updatePlot();
+      generateOutput();
+    }
+  }
+
+  void FractalView::handleInput() {
+    SDL_Event event;
+
+    while (SDL_PollEvent(&event)) {
+      switch (event.type) {
+        case SDL_QUIT:
+          running_ = false;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  void FractalView::updatePlot() {
+    // TODO
+  }
+  void FractalView::generateOutput() {
     if (int error = SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
-      error) {
+        error) {
       std::cerr << "SetRenderDrawColor failed with error " << SDL_GetError() << '\n';
       return;
     }
     if (int error = SDL_RenderClear(renderer_);
-      error) {
+        error) {
       std::cerr << "RenderClear failed with error " << SDL_GetError() << '\n';
       return;
     }

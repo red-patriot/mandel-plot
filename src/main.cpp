@@ -10,8 +10,5 @@ int main() {
 
   view->showPlot();
 
-  // TODO: do other work here
-  std::this_thread::sleep_for(5s);
-
   return 0;
 }
