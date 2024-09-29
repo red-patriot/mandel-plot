@@ -10,11 +10,13 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(mandelbrot_test
-  dummy_test.cpp
+ "test_canvas.cpp"
 )
-target_link_libraries(
-  mandelbrot_test
+
+
+target_link_libraries(mandelbrot_test
   GTest::gtest_main
+  plot_lib
 )
 
 include(GoogleTest)
