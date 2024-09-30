@@ -5,6 +5,7 @@ add_library(plot_lib
     STATIC
     "fractal_view.cpp"
     "canvas.cpp"
+    "color.cpp"
 )
 
 target_compile_definitions(plot_lib
