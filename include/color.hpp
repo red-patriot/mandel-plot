@@ -4,18 +4,13 @@
 #include <cstdint>
 
 namespace plot {
-  class Color {
+  struct Color {
     friend bool operator==(const Color&, const Color&) = default;
 
-   public:
-    constexpr Color(std::uint8_t red,
-                    std::uint8_t blue,
-                    std::uint8_t green,
-                    std::uint8_t alpha) :
-        repr_(alpha | green << 8 | blue << 16 | red << 24) { }
-
-   private:
-    std::uint32_t repr_;
+    std::uint8_t red;
+    std::uint8_t green;
+    std::uint8_t blue;
+    std::uint8_t alpha;
   };
 
   namespace colors {
