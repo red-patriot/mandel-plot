@@ -7,22 +7,23 @@
 namespace mandel {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
-  FractalView* FractalView::init(int width, int height) {
+  FractalView* FractalView::init(plot::Canvas canvas) {
     if (instance_) {
       return nullptr;
     }
 
-    instance_ = std::make_unique<FractalView>(width, height);
+    instance_ = std::make_unique<FractalView>(std::move(canvas));
     return instance_.get();
   }
 
-  FractalView::FractalView(int width, int height) :
-      width_(width),
-      height_(height) {
+  FractalView::FractalView(plot::Canvas canvas) :
+      canvas_(canvas),
+      width_(canvas.width()),
+      height_(canvas.height()) {
     if (instance_) {
       throw std::runtime_error("FractalView is already initialized");
     }
-    if ((width <= 0 || height <= 0)) {
+    if ((width_ <= 0 || height_ <= 0)) {
       throw std::invalid_argument("Window width and height must be greater than 0");
     }
 
@@ -31,6 +32,7 @@ namespace mandel {
       throw std::runtime_error(std::format("Failed to initialize SDL with error {}, {}",
                                            errorCode, SDL_GetError()));
     }
+
 
     window_ = SDL_CreateWindow("Fractal",
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -91,6 +93,18 @@ namespace mandel {
     }
 
     // TODO: Display points
+    for (int i = 0; i < canvas_.height(); ++i) {
+      for (int j = 0; j < canvas_.width(); ++j) {
+        auto& color = canvas_.points_(i,j);
+        SDL_SetRenderDrawColor(renderer_,
+                               color.red,
+                               color.green,
+                               color.blue,
+                               color.alpha);
+        SDL_RenderDrawPoint(renderer_, i, j);
+      }
+    }
+
     SDL_RenderPresent(renderer_);
   }
 }  // namespace mandel

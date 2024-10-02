@@ -5,11 +5,13 @@
 
 #include <SDL2/SDL.h>
 
+#include "canvas.hpp"
+
 namespace mandel {
   /** A view window for an iterative Fractal */
   class FractalView {
    public:
-    FractalView(int width, int height);
+    explicit FractalView(plot::Canvas canvas);
     ~FractalView();
 
     /**
@@ -20,7 +22,7 @@ namespace mandel {
      *
      * \throw std::runtime_error if there is already an instance created (there can only be one allowed at a time)
      */
-    static FractalView* init(int width, int height);
+    static FractalView* init(plot::Canvas canvas);
 
     /** Shows the plot */
     void showPlot();
@@ -28,6 +30,7 @@ namespace mandel {
    private:
     static std::unique_ptr<FractalView> instance_; /**< The unique view instance */
 
+    plot::Canvas canvas_;
     int width_;                       /**< The width of the viewport. */
     int height_;                      /**< The height of the viewport. */
     SDL_Window* window_{nullptr};     /**< The SDL window to draw to. */
