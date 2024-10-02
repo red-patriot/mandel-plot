@@ -30,6 +30,8 @@ namespace plot {
 
     Point min_;
     Point max_;
+
+    std::pair<Eigen::Index, Eigen::Index> indexOf(const Point& location) const;
   };
 }  // namespace plot
 

@@ -13,11 +13,18 @@ namespace plot {
   }
 
   Color& Canvas::operator[](const Point& location) {
-    
-
-    return points_(1, 2);
+    auto index = indexOf(location);
+    return points_(index.first, index.second);
   }
   const Color& Canvas::operator[](const Point& location) const {
-    return points_(0, 0);
+    auto index = indexOf(location);
+    return points_(index.first, index.second);
+  }
+
+  std::pair<Eigen::Index, Eigen::Index> Canvas::indexOf(const Point& location) const {
+    size_t column = width() / (max_.real() - min_.real()) * (location.real() - min_.real());
+    size_t row = height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag());
+
+    return {column, row};
   }
 }  // namespace plot
