@@ -1,7 +1,7 @@
+#include <Eigen/Core>
 #include <algorithm>
 #include <complex>
 
-#include <Eigen/Core>
 #include <gtest/gtest.h>
 
 #include "canvas.hpp"
@@ -81,4 +81,16 @@ TEST(TestCanvas, IndexColorsByIndex) {
 
   EXPECT_EQ(plot::colors::RED, first);
   EXPECT_EQ(plot::colors::BLUE, second);
+}
+
+TEST(TestCanvas, IndicatesSpan) {
+  plot::Canvas::Point smallestPoint = 1.0 + 1.0i;
+  plot::Canvas::Point greatestPoint = 2.0 + 3.0i;
+  auto expected = 1.0 + 2.0i;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, 10, 10};
+
+  auto actual = uut.span();
+
+  EXPECT_EQ(expected, actual);
 }

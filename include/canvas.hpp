@@ -27,6 +27,10 @@ namespace plot {
     Color& operator()(size_t row, size_t column);
     const Color& operator()(size_t row, size_t column) const;
 
+    Point min() const { return min_; }
+    Point max() const { return max_; }
+    Point span() const;
+
    private:
     Plane points_;
 
