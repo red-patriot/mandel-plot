@@ -94,3 +94,15 @@ TEST(TestCanvas, IndicatesSpan) {
 
   EXPECT_EQ(expected, actual);
 }
+
+TEST(TestCanvas, GetStepSize) {
+  plot::Canvas::Point smallestPoint = 1.0 + 1.0i;
+  plot::Canvas::Point greatestPoint = 2.0 + 3.0i;
+  auto expected = 0.1 + 0.1i;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, 10, 20};
+
+  auto actual = uut.step();
+
+  EXPECT_EQ(expected, actual);
+}
