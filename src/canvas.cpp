@@ -32,6 +32,11 @@ namespace plot {
     return max_ - min_;
   }
 
+  Canvas::Point Canvas::step() const {
+    return {span().real() / width(),
+            span().imag() / height()};
+  }
+
   std::pair<Eigen::Index, Eigen::Index> Canvas::indexOf(const Point& location) const {
     size_t column = width() / (max_.real() - min_.real()) * (location.real() - min_.real());
     size_t row = height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag());

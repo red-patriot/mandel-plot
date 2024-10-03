@@ -30,6 +30,7 @@ namespace plot {
     Point min() const { return min_; }
     Point max() const { return max_; }
     Point span() const;
+    Point step() const;
 
    private:
     Plane points_;
