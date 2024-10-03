@@ -1,9 +1,8 @@
 #ifndef MANDEL_PLOT_CANVAS_HPP
 #define MANDEL_PLOT_CANVAS_HPP
 
-#include <complex>
-
 #include <Eigen/Core>
+#include <complex>
 
 #include "color.hpp"
 
@@ -25,7 +24,10 @@ namespace plot {
 
     Color& operator[](const Point& location);
     const Color& operator[](const Point& location) const;
+    Color& operator()(size_t row, size_t column);
+    const Color& operator()(size_t row, size_t column) const;
 
+   private:
     Plane points_;
 
     Point min_;

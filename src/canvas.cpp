@@ -21,6 +21,13 @@ namespace plot {
     return points_(index.first, index.second);
   }
 
+  Color& Canvas::operator()(size_t row, size_t column) {
+    return points_(row, column);
+  }
+  const Color& Canvas::operator()(size_t row, size_t column) const {
+    return points_(row, column);
+  }
+
   std::pair<Eigen::Index, Eigen::Index> Canvas::indexOf(const Point& location) const {
     size_t column = width() / (max_.real() - min_.real()) * (location.real() - min_.real());
     size_t row = height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag());
