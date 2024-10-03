@@ -92,10 +92,9 @@ namespace mandel {
       return;
     }
 
-    // TODO: Display points
     for (int i = 0; i < canvas_.height(); ++i) {
       for (int j = 0; j < canvas_.width(); ++j) {
-        auto& color = canvas_.points_(i,j);
+        auto& color = canvas_(i,j);
         SDL_SetRenderDrawColor(renderer_,
                                color.red,
                                color.green,
