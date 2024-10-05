@@ -33,7 +33,6 @@ namespace mandel {
                                            errorCode, SDL_GetError()));
     }
 
-
     window_ = SDL_CreateWindow("Fractal",
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                width_, height_, 0);
@@ -94,12 +93,12 @@ namespace mandel {
 
     for (int i = 0; i < canvas_.height(); ++i) {
       for (int j = 0; j < canvas_.width(); ++j) {
-        auto& color = canvas_(i,j);
+        auto& color = canvas_(i, j);
         SDL_SetRenderDrawColor(renderer_,
-                               color.red,
-                               color.green,
-                               color.blue,
-                               color.alpha);
+                               color.red(),
+                               color.green(),
+                               color.blue(),
+                               color.alpha());
         SDL_RenderDrawPoint(renderer_, j, i);
       }
     }
