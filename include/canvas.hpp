@@ -4,7 +4,7 @@
 #include <complex>
 #include <memory>
 
-#include <SDL2/SDL_Surface.h>
+#include <SDL2/SDL_surface.h>
 
 #include "color.hpp"
 
