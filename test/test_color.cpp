@@ -91,4 +91,12 @@ INSTANTIATE_TEST_CASE_P(, TestColor,
                             tuple{plot::Color{0, 0, 0, 255},
                                   plot::colors::BLACK},
                             tuple{plot::Color{255, 255, 255, 255},
-                                  plot::colors::WHITE}));
+                                  plot::colors::WHITE},
+                            tuple{plot::Color{255, 255, 255, 255},
+                                  plot::Color{0xFFFFFFFF}},
+                            tuple{plot::Color{0xFF, 0x49, 0xB3, 0xCD},
+                                  plot::Color{0xFF49B3CD}},
+                            tuple{plot::Color{0xE4, 0x77, 0xB2, 0x00},
+                                  plot::Color{0xE477B200}},
+                            tuple{plot::Color{0xAA, 0xBB, 0x33, 0x66},
+                                  plot::Color{0xAABB3366}}));

@@ -14,6 +14,7 @@ namespace plot {
           std::uint8_t green,
           std::uint8_t blue,
           std::uint8_t alpha);
+    explicit Color(std::uint32_t raw);
 
     std::uint8_t red() const { return color_[0]; }
     std::uint8_t& red() { return color_[0]; }
@@ -23,6 +24,11 @@ namespace plot {
     std::uint8_t& blue() { return color_[2]; }
     std::uint8_t alpha() const { return color_[3]; }
     std::uint8_t& alpha() { return color_[3]; }
+
+    static constexpr std::uint32_t RED_MASK = 0xFF'00'00'00;
+    static constexpr std::uint32_t GREEN_MASK = 0x00'FF'00'00;
+    static constexpr std::uint32_t BLUE_MASK = 0x00'00'FF'00;
+    static constexpr std::uint32_t ALPHA_MASK = 0x00'00'00'FF;
 
    private:
     std::array<uint8_t, 4> color_;
