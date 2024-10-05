@@ -25,10 +25,10 @@ namespace plot {
     return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
 
-  Color& Canvas::operator()(size_t y, size_t x) {
+  Color& Canvas::operator()(size_t x, size_t y) {
     return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
-  const Color& Canvas::operator()(size_t y, size_t x) const {
+  const Color& Canvas::operator()(size_t x, size_t y) const {
     return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
 

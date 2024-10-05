@@ -22,8 +22,8 @@ namespace plot {
 
     Color& operator[](const Point& location);
     const Color& operator[](const Point& location) const;
-    Color& operator()(size_t y, size_t x);
-    const Color& operator()(size_t y, size_t x) const;
+    Color& operator()(size_t x, size_t y);
+    const Color& operator()(size_t x, size_t y) const;
 
     Point min() const { return min_; }
     Point max() const { return max_; }
