@@ -4,13 +4,12 @@ namespace plot {
   Canvas::Canvas(const Point& minPoint,
                  const Point& maxPoint,
                  size_t width, size_t height) :
-      points_(height, width),
       points2_(SDL_CreateRGBSurface(0,
                                     width, height, 32,
-                                    Color::RED_MASK,
-                                    Color::GREEN_MASK,
-                                    Color::BLUE_MASK,
-                                    Color::ALPHA_MASK),
+                                    RED_MASK,
+                                    GREEN_MASK,
+                                    BLUE_MASK,
+                                    ALPHA_MASK),
                SDL_FreeSurface),
       width_(width),
       height_(height),
@@ -18,19 +17,19 @@ namespace plot {
       max_(maxPoint) { }
 
   Color& Canvas::operator[](const Point& location) {
-    auto index = indexOf(location);
-    return points_(index.first, index.second);
+    auto [x, y] = indexOf(location);
+    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
   const Color& Canvas::operator[](const Point& location) const {
-    auto index = indexOf(location);
-    return points_(index.first, index.second);
+    auto [x, y] = indexOf(location);
+    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
 
-  Color& Canvas::operator()(size_t row, size_t column) {
-    return points_(row, column);
+  Color& Canvas::operator()(size_t y, size_t x) {
+    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
-  const Color& Canvas::operator()(size_t row, size_t column) const {
-    return points_(row, column);
+  const Color& Canvas::operator()(size_t y, size_t x) const {
+    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
   }
 
   Canvas::Point Canvas::span() const {
@@ -42,7 +41,7 @@ namespace plot {
             span().imag() / height()};
   }
 
-  std::pair<Eigen::Index, Eigen::Index> Canvas::indexOf(const Point& location) const {
+  std::pair<size_t, size_t> Canvas::indexOf(const Point& location) const {
     size_t column = width() / (max_.real() - min_.real()) * (location.real() - min_.real());
     size_t row = height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag());
 

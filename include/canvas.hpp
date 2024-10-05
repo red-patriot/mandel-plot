@@ -1,7 +1,6 @@
 #ifndef MANDEL_PLOT_CANVAS_HPP
 #define MANDEL_PLOT_CANVAS_HPP
 
-#include <Eigen/Core>
 #include <complex>
 #include <memory>
 
@@ -13,7 +12,6 @@ namespace plot {
   class Canvas {
    public:
     using Point = std::complex<double>;
-    using Plane = Eigen::Array<Color, Eigen::Dynamic, Eigen::Dynamic>;
 
     Canvas(const Point& minPoint,
            const Point& maxPoint,
@@ -24,8 +22,8 @@ namespace plot {
 
     Color& operator[](const Point& location);
     const Color& operator[](const Point& location) const;
-    Color& operator()(size_t row, size_t column);
-    const Color& operator()(size_t row, size_t column) const;
+    Color& operator()(size_t y, size_t x);
+    const Color& operator()(size_t y, size_t x) const;
 
     Point min() const { return min_; }
     Point max() const { return max_; }
@@ -33,8 +31,6 @@ namespace plot {
     Point step() const;
 
    private:
-    Plane points_;
-
     std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points2_;
     size_t width_;
     size_t height_;
@@ -42,7 +38,7 @@ namespace plot {
     Point min_;
     Point max_;
 
-    std::pair<Eigen::Index, Eigen::Index> indexOf(const Point& location) const;
+    std::pair<size_t, size_t> indexOf(const Point& location) const;
   };
 }  // namespace plot
 

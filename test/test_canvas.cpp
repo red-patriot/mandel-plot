@@ -44,14 +44,14 @@ TEST(TestCanvas, IndexColorsByComplex) {
 
   plot::Canvas uut{smallestPoint, greatestPoint, 10, 10};
 
-  uut[0.5 + 0.5i] = plot::colors::RED;
-  uut[0.5 - 0.5i] = plot::colors::BLUE;
+  uut[0.5 + 0.5i] = plot::RED;
+  uut[0.5 - 0.5i] = plot::BLUE;
 
   auto first = uut[0.5 + 0.5i];
   auto second = uut[0.5 - 0.5i];
 
-  EXPECT_EQ(plot::colors::RED, first);
-  EXPECT_EQ(plot::colors::BLUE, second);
+  EXPECT_EQ(plot::RED, first);
+  EXPECT_EQ(plot::BLUE, second);
 }
 
 TEST(TestCanvas, IndexColorsByIndex) {
@@ -60,14 +60,14 @@ TEST(TestCanvas, IndexColorsByIndex) {
 
   plot::Canvas uut{smallestPoint, greatestPoint, 10, 10};
 
-  uut(6, 7) = plot::colors::RED;
-  uut(7, 4) = plot::colors::BLUE;
+  uut(6, 7) = plot::RED;
+  uut(7, 4) = plot::BLUE;
 
   auto first = uut(6, 7);
   auto second = uut(7, 4);
 
-  EXPECT_EQ(plot::colors::RED, first);
-  EXPECT_EQ(plot::colors::BLUE, second);
+  EXPECT_EQ(plot::RED, first);
+  EXPECT_EQ(plot::BLUE, second);
 }
 
 TEST(TestCanvas, IndicatesSpan) {

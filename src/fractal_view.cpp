@@ -95,10 +95,10 @@ namespace mandel {
       for (int j = 0; j < canvas_.width(); ++j) {
         auto& color = canvas_(i, j);
         SDL_SetRenderDrawColor(renderer_,
-                               color.red(),
-                               color.green(),
-                               color.blue(),
-                               color.alpha());
+                               plot::red(color),
+                               plot::green(color),
+                               plot::blue(color),
+                               plot::alpha(color));
         SDL_RenderDrawPoint(renderer_, j, i);
       }
     }
