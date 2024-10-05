@@ -11,13 +11,10 @@ namespace plot {
    public:
     using Point = std::complex<double>;
     using Plane = Eigen::Array<Color, Eigen::Dynamic, Eigen::Dynamic>;
-    using View = const Plane&;
 
     Canvas(const Point& minPoint,
            const Point& maxPoint,
            size_t width, size_t height);
-
-    View allPoints() const;
 
     size_t width() const { return points_.cols(); }
     size_t height() const { return points_.rows(); }

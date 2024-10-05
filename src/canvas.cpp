@@ -8,10 +8,6 @@ namespace plot {
       min_(minPoint),
       max_(maxPoint) { }
 
-  Canvas::View Canvas::allPoints() const {
-    return points_;
-  }
-
   Color& Canvas::operator[](const Point& location) {
     auto index = indexOf(location);
     return points_(index.first, index.second);

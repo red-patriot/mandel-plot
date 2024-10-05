@@ -10,27 +10,14 @@ using namespace std::complex_literals;
 
 using std::operator""i;
 
-TEST(TestCanvas, Has2DCanvasField) {
-  plot::Canvas::Point smallestPoint{-1.0, -1.0};
-  plot::Canvas::Point greatestPoint{1.0, 1.0};
-
-  plot::Canvas uut{smallestPoint, greatestPoint, 100, 100};
-
-  auto& actual = uut.allPoints();
-
-  EXPECT_EQ(100 * 100, actual.size());
-}
-
 TEST(TestCanvas, ConstructsCanvasOfCorrectSize) {
   plot::Canvas::Point smallestPoint{-1.0, -1.0};
   plot::Canvas::Point greatestPoint{1.0, 1.0};
 
   plot::Canvas uut{smallestPoint, greatestPoint, 50, 100};
 
-  auto& actual = uut.allPoints();
-
-  EXPECT_EQ(50, actual.cols());
-  EXPECT_EQ(100, actual.rows());
+  EXPECT_EQ(50, uut.width());
+  EXPECT_EQ(100, uut.height());
 }
 
 TEST(TestCanvas, GetWidth) {
