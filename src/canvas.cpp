@@ -5,12 +5,12 @@ namespace plot {
                  const Point& maxPoint,
                  size_t width, size_t height) :
       points_(SDL_CreateRGBSurface(0,
-                                    width, height, 32,
-                                    RED_MASK,
-                                    GREEN_MASK,
-                                    BLUE_MASK,
-                                    ALPHA_MASK),
-               SDL_FreeSurface),
+                                   width, height, 32,
+                                   RED_MASK,
+                                   GREEN_MASK,
+                                   BLUE_MASK,
+                                   ALPHA_MASK),
+              SDL_FreeSurface),
       width_(width),
       height_(height),
       min_(minPoint),
@@ -39,6 +39,10 @@ namespace plot {
   Canvas::Point Canvas::step() const {
     return {span().real() / width(),
             span().imag() / height()};
+  }
+
+  SDL_Surface* Canvas::getAllValues() const {
+    return points_.get();
   }
 
   std::pair<size_t, size_t> Canvas::indexOf(const Point& location) const {

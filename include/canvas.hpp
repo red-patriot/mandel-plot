@@ -4,7 +4,7 @@
 #include <complex>
 #include <memory>
 
-#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_Surface.h>
 
 #include "color.hpp"
 
@@ -29,6 +29,8 @@ namespace plot {
     Point max() const { return max_; }
     Point span() const;
     Point step() const;
+
+    SDL_Surface* getAllValues() const;
 
    private:
     std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points_;

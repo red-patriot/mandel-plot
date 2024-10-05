@@ -91,17 +91,12 @@ namespace mandel {
       return;
     }
 
-    for (int i = 0; i < canvas_.width(); ++i) {
-      for (int j = 0; j < canvas_.height(); ++j) {
-        auto& color = canvas_(i, j);
-        SDL_SetRenderDrawColor(renderer_,
-                               plot::red(color),
-                               plot::green(color),
-                               plot::blue(color),
-                               plot::alpha(color));
-        SDL_RenderDrawPoint(renderer_, i, j);
-      }
-    }
+    std::unique_ptr<SDL_Texture,
+                    void (*)(SDL_Texture*)>
+        texture{SDL_CreateTextureFromSurface(renderer_,
+                                             canvas_.getAllValues()),
+                SDL_DestroyTexture};
+    SDL_RenderCopy(renderer_, texture.get(), nullptr, nullptr);
 
     SDL_RenderPresent(renderer_);
   }
