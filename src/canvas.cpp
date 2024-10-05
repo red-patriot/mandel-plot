@@ -4,7 +4,7 @@ namespace plot {
   Canvas::Canvas(const Point& minPoint,
                  const Point& maxPoint,
                  size_t width, size_t height) :
-      points2_(SDL_CreateRGBSurface(0,
+      points_(SDL_CreateRGBSurface(0,
                                     width, height, 32,
                                     RED_MASK,
                                     GREEN_MASK,
@@ -18,18 +18,18 @@ namespace plot {
 
   Color& Canvas::operator[](const Point& location) {
     auto [x, y] = indexOf(location);
-    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
+    return colorAt(points_->pixels, x, y);
   }
   const Color& Canvas::operator[](const Point& location) const {
     auto [x, y] = indexOf(location);
-    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
+    return colorAt(points_->pixels, x, y);
   }
 
   Color& Canvas::operator()(size_t x, size_t y) {
-    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
+    return colorAt(points_->pixels, x, y);
   }
   const Color& Canvas::operator()(size_t x, size_t y) const {
-    return reinterpret_cast<Color*>(points2_->pixels)[y * width_ + x];
+    return colorAt(points_->pixels, x, y);
   }
 
   Canvas::Point Canvas::span() const {
@@ -46,5 +46,13 @@ namespace plot {
     size_t row = height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag());
 
     return {column, row};
+  }
+
+  Color& Canvas::colorAt(void* pixels, size_t x, size_t y) {
+    return reinterpret_cast<Color*>(pixels)[y * width_ + x];
+  }
+
+  const Color& Canvas::colorAt(void* pixels, size_t x, size_t y) const {
+    return reinterpret_cast<Color*>(pixels)[y * width_ + x];
   }
 }  // namespace plot

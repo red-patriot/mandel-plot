@@ -31,7 +31,7 @@ namespace plot {
     Point step() const;
 
    private:
-    std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points2_;
+    std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points_;
     size_t width_;
     size_t height_;
 
@@ -39,6 +39,8 @@ namespace plot {
     Point max_;
 
     std::pair<size_t, size_t> indexOf(const Point& location) const;
+    Color& colorAt(void* pixels, size_t x, size_t y);
+    const Color& colorAt(void* pixels, size_t x, size_t y) const;
   };
 }  // namespace plot
 
