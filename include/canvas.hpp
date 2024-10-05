@@ -3,6 +3,9 @@
 
 #include <Eigen/Core>
 #include <complex>
+#include <memory>
+
+#include <SDL2/SDL_surface.h>
 
 #include "color.hpp"
 
@@ -16,8 +19,8 @@ namespace plot {
            const Point& maxPoint,
            size_t width, size_t height);
 
-    size_t width() const { return points_.cols(); }
-    size_t height() const { return points_.rows(); }
+    size_t width() const { return width_; }
+    size_t height() const { return height_; }
 
     Color& operator[](const Point& location);
     const Color& operator[](const Point& location) const;
@@ -31,6 +34,10 @@ namespace plot {
 
    private:
     Plane points_;
+
+    std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points2_;
+    size_t width_;
+    size_t height_;
 
     Point min_;
     Point max_;

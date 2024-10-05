@@ -5,6 +5,15 @@ namespace plot {
                  const Point& maxPoint,
                  size_t width, size_t height) :
       points_(height, width),
+      points2_(SDL_CreateRGBSurface(0,
+                                    width, height, 32,
+                                    Color::RED_MASK,
+                                    Color::GREEN_MASK,
+                                    Color::BLUE_MASK,
+                                    Color::ALPHA_MASK),
+               SDL_FreeSurface),
+      width_(width),
+      height_(height),
       min_(minPoint),
       max_(maxPoint) { }
 

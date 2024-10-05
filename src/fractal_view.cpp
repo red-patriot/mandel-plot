@@ -17,7 +17,7 @@ namespace mandel {
   }
 
   FractalView::FractalView(plot::Canvas canvas) :
-      canvas_(canvas),
+      canvas_(std::move(canvas)),
       width_(canvas.width()),
       height_(canvas.height()) {
     if (instance_) {
