@@ -11,7 +11,7 @@ using std::operator""i;
 int main() {
   plot::Canvas canvas{-1.0 - 1.0i,
                       1.0 + 1.0i,
-                      1024, 1024};
+                      1024, 512};
 
   // For now, just use some hardcoded colors to see the canvas being rendered
   for (int i = 0; i < canvas.height(); ++i) {

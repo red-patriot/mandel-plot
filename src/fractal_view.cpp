@@ -100,7 +100,7 @@ namespace mandel {
                                color.green,
                                color.blue,
                                color.alpha);
-        SDL_RenderDrawPoint(renderer_, i, j);
+        SDL_RenderDrawPoint(renderer_, j, i);
       }
     }
 
