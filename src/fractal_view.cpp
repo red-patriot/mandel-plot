@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdexcept>
 
+#include <random>
+#include <limits>
+
 namespace mandel {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
@@ -77,7 +80,17 @@ namespace mandel {
     }
   }
   void FractalView::updatePlot() {
-    // TODO
+    static size_t y = 0;
+    static std::random_device rd;
+    static std::mt19937 generator{rd()};
+    static std::uniform_int_distribution<std::uint32_t> distribution{0u, std::numeric_limits<std::uint32_t>::max()};
+
+    for (size_t x = 0; x != canvas_.width(); ++x) {
+      canvas_(x, y) = distribution(generator) | plot::ALPHA_MASK;
+    }
+
+    ++y;
+    y = y % canvas_.height();
   }
   void FractalView::generateOutput() {
     if (int error = SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);

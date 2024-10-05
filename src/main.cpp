@@ -13,16 +13,6 @@ int main() {
                       1.0 + 1.0i,
                       1024, 512};
 
-  // For now, just use some hardcoded colors to see the canvas being rendered
-  for (int i = 0; i < canvas.width(); ++i) {
-    for (int j = 0; j < canvas.height(); ++j) {
-      canvas(i, j) = plot::combineColor((std::uint8_t)i,
-                                        0,
-                                        (std::uint8_t)j,
-                                        255);
-    }
-  }
-
   auto view = mandel::FractalView::init(std::move(canvas));
 
   view->showPlot();
