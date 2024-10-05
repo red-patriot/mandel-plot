@@ -1,11 +1,22 @@
 find_package(SDL2 REQUIRED)
 find_package(Eigen3 REQUIRED)
 
+if (CMAKE_CXX_COMPILER_ID)
+    set(COMPILE_FLAGS
+        -Wall -Wextra -Werror
+    )
+endif()
+
 add_library(plot_lib
     STATIC
     "fractal_view.cpp"
     "canvas.cpp"
     "color.cpp"
+)
+
+target_compile_options(plot_lib
+    PRIVATE
+    ${COMPILE_FLAGS}    
 )
 
 target_compile_definitions(plot_lib
@@ -26,6 +37,11 @@ target_link_libraries(plot_lib
 
 add_executable(${PROJECT_NAME}
     "main.cpp"
+)
+
+target_compile_options(${PROJECT_NAME}
+    PRIVATE
+    ${COMPILE_FLAGS}    
 )
 
 target_link_libraries(${PROJECT_NAME}
