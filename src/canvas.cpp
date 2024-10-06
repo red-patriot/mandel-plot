@@ -51,7 +51,7 @@ namespace plot {
             span().imag() / height()};
   }
 
-  SDL_Surface* Canvas::getAllValues() const {
+  Canvas::View Canvas::getAllValues() const {
     return points_.get();
   }
 
