@@ -10,6 +10,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(mandelbrot_test
   "test_canvas.cpp"
   "test_color.cpp"
+  "test_mandelbrot_equation.cpp"
 )
 
 
