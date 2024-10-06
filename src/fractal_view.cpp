@@ -7,7 +7,7 @@
 #include <random>
 #include <limits>
 
-namespace mandel {
+namespace plot {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
   FractalView* FractalView::init(plot::Canvas canvas) {

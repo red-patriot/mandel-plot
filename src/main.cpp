@@ -13,7 +13,7 @@ int main() {
                       1.0 + 1.0i,
                       1024, 512};
 
-  auto view = mandel::FractalView::init(std::move(canvas));
+  auto view = plot::FractalView::init(std::move(canvas));
 
   view->showPlot();
 
