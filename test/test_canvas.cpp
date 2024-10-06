@@ -93,3 +93,11 @@ TEST(TestCanvas, GetStepSize) {
 
   EXPECT_EQ(expected, actual);
 }
+
+TEST(TestCanvas, CannotConstructWithNonPositiveWidth) {
+  EXPECT_THROW(plot::Canvas c(0.0 - 1.0i, 1.0 + 1.0i, -5, 20), std::invalid_argument);
+}
+
+TEST(TestCanvas, CannotConstructWithNonPositiveHeight) {
+  EXPECT_THROW(plot::Canvas c(0.0 - 1.0i, 1.0 + 1.0i, 20, -100), std::invalid_argument);
+}

@@ -1,5 +1,8 @@
 #include "canvas.hpp"
 
+#include <stdexcept>
+#include <format>
+
 namespace plot {
   Canvas::Canvas(const Point& minPoint,
                  const Point& maxPoint,
@@ -14,7 +17,14 @@ namespace plot {
       width_(width),
       height_(height),
       min_(minPoint),
-      max_(maxPoint) { }
+      max_(maxPoint) { 
+    if (width <= 0) {
+      throw std::invalid_argument("Width must be greater than 0");
+    }
+    if (height <= 0) {
+      throw std::invalid_argument("Height must be greater than 0");
+    }
+  }
 
   Color& Canvas::operator[](const Point& location) {
     auto [x, y] = indexOf(location);
