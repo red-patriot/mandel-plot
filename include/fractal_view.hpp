@@ -30,9 +30,7 @@ namespace mandel {
    private:
     static std::unique_ptr<FractalView> instance_; /**< The unique view instance */
 
-    plot::Canvas canvas_;
-    int width_;                       /**< The width of the viewport. */
-    int height_;                      /**< The height of the viewport. */
+    plot::Canvas canvas_;             /**< The Canvas to draw to the screen */
     SDL_Window* window_{nullptr};     /**< The SDL window to draw to. */
     SDL_Renderer* renderer_{nullptr}; /**< The Renderer to use to display the window contents. */
     bool running_{true};              /**< Indicates the main loop is still running. */

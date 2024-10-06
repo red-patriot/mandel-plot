@@ -20,14 +20,9 @@ namespace mandel {
   }
 
   FractalView::FractalView(plot::Canvas canvas) :
-      canvas_(std::move(canvas)),
-      width_(canvas.width()),
-      height_(canvas.height()) {
+      canvas_(std::move(canvas)) {
     if (instance_) {
       throw std::runtime_error("FractalView is already initialized");
-    }
-    if ((width_ <= 0 || height_ <= 0)) {
-      throw std::invalid_argument("Window width and height must be greater than 0");
     }
 
     if (auto errorCode = SDL_Init(SDL_INIT_VIDEO);
@@ -38,7 +33,7 @@ namespace mandel {
 
     window_ = SDL_CreateWindow("Fractal",
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                               width_, height_, 0);
+                               canvas_.width(), canvas_.height(), 0);
     if (!window_) {
       throw std::runtime_error(std::format("Failed to create a window with error {}",
                                            SDL_GetError()));
