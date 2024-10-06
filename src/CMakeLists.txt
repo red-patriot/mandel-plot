@@ -19,6 +19,7 @@ add_library(plot_lib
     "fractal_view.cpp"
     "canvas.cpp"
     "color.cpp"
+    "mandelbrot.cpp"
 )
 
 target_compile_options(plot_lib
