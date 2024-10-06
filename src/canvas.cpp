@@ -3,7 +3,7 @@
 namespace plot {
   Canvas::Canvas(const Point& minPoint,
                  const Point& maxPoint,
-                 size_t width, size_t height) :
+                 int width, int height) :
       points_(SDL_CreateRGBSurface(0,
                                    width, height, 32,
                                    RED_MASK,
@@ -46,8 +46,8 @@ namespace plot {
   }
 
   std::pair<size_t, size_t> Canvas::indexOf(const Point& location) const {
-    size_t column = width() / (max_.real() - min_.real()) * (location.real() - min_.real());
-    size_t row = height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag());
+    size_t column = static_cast<size_t>(width() / (max_.real() - min_.real()) * (location.real() - min_.real()));
+    size_t row = static_cast<size_t>(height() / (max_.imag() - min_.imag()) * (location.imag() - min_.imag()));
 
     return {column, row};
   }

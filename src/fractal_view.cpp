@@ -80,6 +80,8 @@ namespace mandel {
     }
   }
   void FractalView::updatePlot() {
+    // For now, just show random colors
+    // TODO: actually calculate colors here
     static size_t y = 0;
     static std::random_device rd;
     static std::mt19937 generator{rd()};

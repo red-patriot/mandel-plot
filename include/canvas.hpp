@@ -15,10 +15,10 @@ namespace plot {
 
     Canvas(const Point& minPoint,
            const Point& maxPoint,
-           size_t width, size_t height);
+           int width, int height);
 
-    size_t width() const { return width_; }
-    size_t height() const { return height_; }
+    int width() const { return width_; }
+    int height() const { return height_; }
 
     Color& operator[](const Point& location);
     const Color& operator[](const Point& location) const;
@@ -34,8 +34,8 @@ namespace plot {
 
    private:
     std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points_;
-    size_t width_;
-    size_t height_;
+    int width_;
+    int height_;
 
     Point min_;
     Point max_;

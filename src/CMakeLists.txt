@@ -1,9 +1,16 @@
 find_package(SDL2 REQUIRED)
 find_package(Eigen3 REQUIRED)
 
-if (CMAKE_CXX_COMPILER_ID)
-    set(COMPILE_FLAGS
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(COMPILER_FLAGS
         -Wall -Wextra -Werror
+    )
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(COMPILER_FLAGS
+        -W3
+        -WX
+        -external:anglebrackets
+        -external:W0
     )
 endif()
 
@@ -16,7 +23,7 @@ add_library(plot_lib
 
 target_compile_options(plot_lib
     PRIVATE
-    ${COMPILE_FLAGS}    
+    ${COMPILER_FLAGS}    
 )
 
 target_compile_definitions(plot_lib
@@ -41,7 +48,7 @@ add_executable(${PROJECT_NAME}
 
 target_compile_options(${PROJECT_NAME}
     PRIVATE
-    ${COMPILE_FLAGS}    
+    ${COMPILER_FLAGS}    
 )
 
 target_link_libraries(${PROJECT_NAME}
