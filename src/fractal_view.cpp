@@ -77,12 +77,12 @@ namespace plot {
   void FractalView::updatePlot() {
     // For now, just show random colors
     // TODO: actually calculate colors here
-    static size_t y = 0;
+    static int y = 0;
     static std::random_device rd;
     static std::mt19937 generator{rd()};
     static std::uniform_int_distribution<std::uint32_t> distribution{0u, std::numeric_limits<std::uint32_t>::max()};
 
-    for (size_t x = 0; x != canvas_.width(); ++x) {
+    for (int x = 0; x != canvas_.width(); ++x) {
       canvas_(x, y) = distribution(generator) | plot::ALPHA_MASK;
     }
 
