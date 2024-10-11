@@ -16,6 +16,6 @@ namespace mandelbrot {
       }
     }
 
-    return limit;
+    return DOES_NOT_ESCAPE;
   }
 }  // namespace mandelbrot
