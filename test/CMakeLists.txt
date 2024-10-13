@@ -11,7 +11,7 @@ add_executable(mandelbrot_test
   "test_canvas.cpp"
   "test_color.cpp"
   "test_mandelbrot_equation.cpp"
-)
+ "test_color_calculator.cpp")
 
 
 target_link_libraries(mandelbrot_test
