@@ -10,17 +10,20 @@
 namespace plot {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
-  FractalView* FractalView::init(plot::Canvas canvas) {
+  FractalView* FractalView::init(plot::Canvas canvas,
+                                 plot::ColorCalculator calculator) {
     if (instance_) {
       return nullptr;
     }
 
-    instance_ = std::make_unique<FractalView>(std::move(canvas));
+    instance_ = std::make_unique<FractalView>(std::move(canvas), calculator);
     return instance_.get();
   }
 
-  FractalView::FractalView(plot::Canvas canvas) :
-      canvas_(std::move(canvas)) {
+  FractalView::FractalView(plot::Canvas canvas,
+                           plot::ColorCalculator calculator) :
+      canvas_(std::move(canvas)),
+      calculator_(std::move(calculator)) {
     if (instance_) {
       throw std::runtime_error("FractalView is already initialized");
     }
@@ -75,19 +78,6 @@ namespace plot {
     }
   }
   void FractalView::updatePlot() {
-    // For now, just show random colors
-    // TODO: actually calculate colors here
-    static int y = 0;
-    static std::random_device rd;
-    static std::mt19937 generator{rd()};
-    static std::uniform_int_distribution<std::uint32_t> distribution{0u, std::numeric_limits<std::uint32_t>::max()};
-
-    for (int x = 0; x != canvas_.width(); ++x) {
-      canvas_(x, y) = distribution(generator) | plot::ALPHA_MASK;
-    }
-
-    ++y;
-    y = y % canvas_.height();
   }
   void FractalView::generateOutput() {
     if (int error = SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
@@ -110,4 +100,4 @@ namespace plot {
 
     SDL_RenderPresent(renderer_);
   }
-}  // namespace mandel
+}  // namespace plot
