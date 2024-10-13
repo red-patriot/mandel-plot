@@ -16,6 +16,6 @@ namespace mandelbrot {
       }
     }
 
-    return DOES_NOT_ESCAPE;
+    return plot::DOES_NOT_ESCAPE;
   }
 }  // namespace mandelbrot

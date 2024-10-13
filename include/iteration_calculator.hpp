@@ -10,7 +10,7 @@ namespace plot {
    public:
     virtual ~IterationCalculator() = default;
 
-    virtual size_t operator()(Canvas::Point point, size_t escapeLimit) = 0;
+    virtual size_t operator()(Canvas& canvas, size_t escapeLimit) = 0;
   };
 }  // namespace plot
 
