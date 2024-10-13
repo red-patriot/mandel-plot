@@ -1,7 +1,7 @@
 #include "canvas.hpp"
 
-#include <stdexcept>
 #include <format>
+#include <stdexcept>
 
 namespace plot {
   Canvas::Canvas(const Point& minPoint,
@@ -17,7 +17,7 @@ namespace plot {
       width_(width),
       height_(height),
       min_(minPoint),
-      max_(maxPoint) { 
+      max_(maxPoint) {
     if (width <= 0) {
       throw std::invalid_argument("Width must be greater than 0");
     }
@@ -63,10 +63,18 @@ namespace plot {
   }
 
   Color& Canvas::colorAt(void* pixels, size_t x, size_t y) {
+    if (y * width_ + x >= width_ * height_) {
+      throw std::invalid_argument(std::format("Point ({}, {}) is off the the canvas",
+                                              x, y));
+    }
     return reinterpret_cast<Color*>(pixels)[y * width_ + x];
   }
 
   const Color& Canvas::colorAt(void* pixels, size_t x, size_t y) const {
+    if (y * width_ + x >= width_ * height_) {
+      throw std::invalid_argument(std::format("Point ({}, {}) is off the the canvas",
+                                              x, y));
+    }
     return reinterpret_cast<Color*>(pixels)[y * width_ + x];
   }
 }  // namespace plot

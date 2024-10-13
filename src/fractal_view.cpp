@@ -78,6 +78,7 @@ namespace plot {
     }
   }
   void FractalView::updatePlot() {
+    calculator_.update(canvas_);
   }
   void FractalView::generateOutput() {
     if (int error = SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);

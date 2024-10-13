@@ -15,9 +15,14 @@ namespace plot {
 
     Color findColor(Canvas::Point point);
 
+    void update(Canvas& canvas);
+
    private:
     std::vector<Color> palette_;
     size_t (*escapeFunction_)(std::complex<double> c, size_t limit);
+
+    bool first_{true};
+    Canvas::Point currentPoint_{0.0, 0.0};
   };
 }  // namespace plot
 
