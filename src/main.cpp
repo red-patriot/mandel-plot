@@ -10,9 +10,9 @@ using namespace std::chrono_literals;
 using std::operator""i;
 
 int main() {
-  plot::Canvas canvas{-2.5 - 1.75i,
-                      1.0 + 1.75i,
-                      780, 780};
+  plot::Canvas canvas{-2.5 + 1.75i,
+                      1.0 - 1.75i,
+                      1000, 1000};
   plot::ColorCalculator calculator({0x33CEFFFF,
                                     0x3368FFFF,
                                     0x6433FFFF,

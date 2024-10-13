@@ -4,8 +4,8 @@
 #include <stdexcept>
 
 namespace plot {
-  Canvas::Canvas(const Point& minPoint,
-                 const Point& maxPoint,
+  Canvas::Canvas(const Point& firstPoint,
+                 const Point& secondPoint,
                  int width, int height) :
       points_(SDL_CreateRGBSurface(0,
                                    width, height, 32,
@@ -16,8 +16,8 @@ namespace plot {
               SDL_FreeSurface),
       width_(width),
       height_(height),
-      min_(minPoint),
-      max_(maxPoint) {
+      min_(calculateMin(firstPoint, secondPoint)),
+      max_(calculateMax(firstPoint, secondPoint)) {
     if (width <= 0) {
       throw std::invalid_argument("Width must be greater than 0");
     }
@@ -53,6 +53,15 @@ namespace plot {
 
   Canvas::View Canvas::getAllValues() const {
     return points_.get();
+  }
+
+  Canvas::Point Canvas::calculateMin(Canvas::Point first, Canvas::Point second) {
+    return Point{std::min(first.real(), second.real()),
+                 std::min(first.imag(), second.imag())};
+  }
+  Canvas::Point Canvas::calculateMax(Canvas::Point first, Canvas::Point second) {
+    return Point{std::max(first.real(), second.real()),
+                 std::max(first.imag(), second.imag())};
   }
 
   std::pair<size_t, size_t> Canvas::indexOf(const Point& location) const {

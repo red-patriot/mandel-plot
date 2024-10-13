@@ -16,14 +16,14 @@ namespace plot {
 
     /**
      * Constructs a Canvas.
-     * 
-     * \param minPoint The value corresponding to the smallest (top left) corner of the canvas
-     * \param maxPoint The point corresponding to the largest (bottom right) corner of the canvas
+     *
+     * \param firstPoint The value corresponding to one corner of the canvas
+     * \param secondPoint The point corresponding to the opposite corner of the canvas
      * \param width The width in pixels of the canvas
      * \param height The height in pixels of the canvas to draw
      */
-    Canvas(const Point& minPoint,
-           const Point& maxPoint,
+    Canvas(const Point& firstPoint,
+           const Point& secondPoint,
            int width, int height);
 
     /** Returns the number of pixels wide the canvas is */
@@ -59,6 +59,9 @@ namespace plot {
 
     Point min_;
     Point max_;
+
+    static Point calculateMin(Point first, Point second);
+    static Point calculateMax(Point first, Point second);
 
     std::pair<size_t, size_t> indexOf(const Point& location) const;
     Color& colorAt(void* pixels, size_t x, size_t y);
