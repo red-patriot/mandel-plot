@@ -6,9 +6,11 @@ using std::operator""i;
 
 namespace plot {
   ColorCalculator::ColorCalculator(std::vector<Color> palette,
-                                   size_t (*escapeFunction)(Canvas::Point c, size_t limit)) :
+                                   size_t (*escapeFunction)(Canvas::Point c, size_t limit),
+                                   std::shared_ptr<plot::Canvas> canvas) :
       palette_(std::move(palette)),
-      escapeFunction_(escapeFunction) { }
+      escapeFunction_(escapeFunction),
+      canvas_(canvas) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
     auto iterations = escapeFunction_(point, 1000);
@@ -19,19 +21,19 @@ namespace plot {
     return palette_[(iterations - 1) % palette_.size()];
   }
 
-  void ColorCalculator::update(Canvas& canvas) {
-    if (finished_) {
+  void ColorCalculator::update() {
+    if (finished_ || !canvas_) {
       return;
     }
 
     // calculate 1 row of the plot at a time
-    for (currentCol_ = 0; currentCol_ != canvas.width(); ++currentCol_) {
-      auto point = canvas.valueOf(currentCol_, currentRow_);
-      canvas(currentCol_, currentRow_) = findColor(point);
+    for (currentCol_ = 0; currentCol_ != canvas_->width(); ++currentCol_) {
+      auto point = canvas_->valueOf(currentCol_, currentRow_);
+      (*canvas_)(currentCol_, currentRow_) = findColor(point);
     }
 
     ++currentRow_;
-    if (currentRow_ == canvas.height()) {
+    if (currentRow_ == canvas_->height()) {
       finished_ = true;
     }
   }

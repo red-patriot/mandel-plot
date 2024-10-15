@@ -10,7 +10,7 @@
 namespace plot {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
-  FractalView* FractalView::init(plot::Canvas canvas,
+  FractalView* FractalView::init(std::shared_ptr<plot::Canvas> canvas,
                                  plot::ColorCalculator calculator) {
     if (instance_) {
       return nullptr;
@@ -20,7 +20,7 @@ namespace plot {
     return instance_.get();
   }
 
-  FractalView::FractalView(plot::Canvas canvas,
+  FractalView::FractalView(std::shared_ptr<plot::Canvas> canvas,
                            plot::ColorCalculator calculator) :
       canvas_(std::move(canvas)),
       calculator_(std::move(calculator)) {
@@ -36,7 +36,7 @@ namespace plot {
 
     window_ = SDL_CreateWindow("Fractal",
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                               canvas_.width(), canvas_.height(), 0);
+                               canvas_->width(), canvas_->height(), 0);
     if (!window_) {
       throw std::runtime_error(std::format("Failed to create a window with error {}",
                                            SDL_GetError()));
@@ -78,7 +78,7 @@ namespace plot {
     }
   }
   void FractalView::updatePlot() {
-    calculator_.update(canvas_);
+    calculator_.update();
   }
   void FractalView::generateOutput() {
     if (int error = SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
@@ -95,7 +95,7 @@ namespace plot {
     std::unique_ptr<SDL_Texture,
                     void (*)(SDL_Texture*)>
         texture{SDL_CreateTextureFromSurface(renderer_,
-                                             canvas_.getAllValues()),
+                                             canvas_->getAllValues()),
                 SDL_DestroyTexture};
     SDL_RenderCopy(renderer_, texture.get(), nullptr, nullptr);
 
