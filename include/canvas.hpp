@@ -32,13 +32,13 @@ namespace plot {
     int height() const { return height_; }
 
     /** Accesses the color of the given complex point */
-    Color& operator[](const Point& location);
+    [[deprecated]] Color& operator[](const Point& location);
     /** Accesses the color of the given complex point */
-    const Color& operator[](const Point& location) const;
+    [[deprecated]] const Color& operator[](const Point& location) const;
     /** Accesses the color of the pixel at the given (x,y) coordinate */
-    [[deprecated]] Color& operator()(size_t x, size_t y);
+    Color& operator()(size_t x, size_t y);
     /** Accesses the color of the pixel at the given (x,y) coordinate */
-    [[deprecated]] const Color& operator()(size_t x, size_t y) const;
+    const Color& operator()(size_t x, size_t y) const;
 
     Point valueOf(size_t x, size_t y) const; 
 

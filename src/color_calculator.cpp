@@ -20,20 +20,20 @@ namespace plot {
   }
 
   void ColorCalculator::update(Canvas& canvas) {
+    if (finished_) {
+      return;
+    }
+
     // calculate 1 row of the plot at a time
-    auto imagStep = canvas.step().imag();
-    auto realStep = canvas.step().real();
-
-    if (first_) {
-      first_ = false;
-      currentPoint_ = canvas.min();
+    for (currentCol_ = 0; currentCol_ != canvas.width(); ++currentCol_) {
+      auto point = canvas.valueOf(currentCol_, currentRow_);
+      canvas(currentCol_, currentRow_) = findColor(point);
     }
 
-    for (; currentPoint_.real() <= canvas.max().real(); currentPoint_ += realStep) {
-      canvas[currentPoint_] = findColor(currentPoint_);
+    ++currentRow_;
+    if (currentRow_ == canvas.height()) {
+      finished_ = true;
     }
-
-    currentPoint_ = {canvas.min().real(), currentPoint_.imag() + imagStep};
   }
 
 }  // namespace plot

@@ -21,8 +21,9 @@ namespace plot {
     std::vector<Color> palette_;
     size_t (*escapeFunction_)(std::complex<double> c, size_t limit);
 
-    bool first_{true};
-    Canvas::Point currentPoint_{0.0, 0.0};
+    bool finished_{false};
+    size_t currentCol_{0};
+    size_t currentRow_{0};
   };
 }  // namespace plot
 
