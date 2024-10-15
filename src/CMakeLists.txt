@@ -7,12 +7,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(COMPILER_FLAGS
-        -W3
-        -WX
-        -external:anglebrackets
-        -external:W0
+       "/W3" "/WX" "/external:anglebrackets" "/external:W0"
     )
 endif()
+
+message(STATUS ${COMPILER_FLAGS})
 
 add_library(plot_lib
     STATIC

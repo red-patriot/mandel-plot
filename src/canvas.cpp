@@ -42,6 +42,12 @@ namespace plot {
     return colorAt(points_->pixels, x, y);
   }
 
+  Canvas::Point Canvas::valueOf(size_t x, size_t y) const {
+    return Point{
+        ((max_.real() - min_.real()) / width_) * x + min_.real(),
+        ((max_.imag() - min_.imag()) / height_) * y + min_.imag()};
+  }
+
   Canvas::Point Canvas::span() const {
     return max_ - min_;
   }

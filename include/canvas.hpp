@@ -36,9 +36,11 @@ namespace plot {
     /** Accesses the color of the given complex point */
     const Color& operator[](const Point& location) const;
     /** Accesses the color of the pixel at the given (x,y) coordinate */
-    Color& operator()(size_t x, size_t y);
+    [[deprecated]] Color& operator()(size_t x, size_t y);
     /** Accesses the color of the pixel at the given (x,y) coordinate */
-    const Color& operator()(size_t x, size_t y) const;
+    [[deprecated]] const Color& operator()(size_t x, size_t y) const;
+
+    Point valueOf(size_t x, size_t y) const; 
 
     /** Returns the maximum value of the canvas. */
     Point min() const { return min_; }

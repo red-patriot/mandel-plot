@@ -94,6 +94,45 @@ TEST(TestCanvas, GetStepSize) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST(TestCanvas, GetPointOfPixel) {
+  plot::Canvas::Point smallestPoint = 1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 2.0 + 3.0i;
+  auto expected = 1.5 + 0.4i;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, 10, 40};
+
+  auto actual = uut.valueOf(5, 14);
+
+  EXPECT_NEAR(expected.real(), actual.real(), 1e-6);
+  EXPECT_NEAR(expected.imag(), actual.imag(), 1e-6);
+}
+
+TEST(TestCanvas, GetPointOfPixelStart) {
+  plot::Canvas::Point smallestPoint = 1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 2.0 + 3.0i;
+  auto expected = 1.0 - 1.0i;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, 10, 40};
+
+  auto actual = uut.valueOf(0, 0);
+
+  EXPECT_NEAR(expected.real(), actual.real(), 1e-6);
+  EXPECT_NEAR(expected.imag(), actual.imag(), 1e-6);
+}
+
+TEST(TestCanvas, GetPointOfPixelEnd) {
+  plot::Canvas::Point smallestPoint = 1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 2.0 + 3.0i;
+  auto expected = 2.0 + 3.0i;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, 10, 40};
+
+  auto actual = uut.valueOf(10, 40);
+
+  EXPECT_NEAR(expected.real(), actual.real(), 1e-6);
+  EXPECT_NEAR(expected.imag(), actual.imag(), 1e-6);
+}
+
 TEST(TestCanvas, CannotConstructWithNonPositiveWidth) {
   EXPECT_THROW(plot::Canvas c(0.0 - 1.0i, 1.0 + 1.0i, -5, 20), std::invalid_argument);
 }
