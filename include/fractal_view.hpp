@@ -1,6 +1,7 @@
 #ifndef MANDEL_PLOT_FRACTAL_VIEW_HPP
 #define MANDEL_PLOT_FRACTAL_VIEW_HPP
 
+#include <chrono>
 #include <memory>
 
 #include <SDL2/SDL.h>
@@ -33,11 +34,12 @@ namespace plot {
    private:
     static std::unique_ptr<FractalView> instance_; /**< The unique view instance */
 
-    std::shared_ptr<plot::Canvas> canvas_; /**< The Canvas to draw to the screen */
-    ColorCalculator calculator_;           /**< Calculates the color of each pixel */
-    SDL_Window* window_{nullptr};          /**< The SDL window to draw to. */
-    SDL_Renderer* renderer_{nullptr};      /**< The Renderer to use to display the window contents. */
-    bool running_{true};                   /**< Indicates the main loop is still running. */
+    std::shared_ptr<plot::Canvas> canvas_;                     /**< The Canvas to draw to the screen */
+    ColorCalculator calculator_;                               /**< Calculates the color of each pixel */
+    std::chrono::steady_clock::time_point drawStart_; /**< The time we started drawing the set*/
+    SDL_Window* window_{nullptr};                              /**< The SDL window to draw to. */
+    SDL_Renderer* renderer_{nullptr};                          /**< The Renderer to use to display the window contents. */
+    bool running_{true};                                       /**< Indicates the main loop is still running. */
 
     FractalView(const FractalView&) = delete;
     FractalView& operator=(const FractalView&) = delete;

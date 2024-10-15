@@ -47,6 +47,8 @@ namespace plot {
       throw std::runtime_error(std::format("Failed to create a renderer with error {}",
                                            SDL_GetError()));
     }
+
+    drawStart_ = std::chrono::steady_clock::now();
   }
 
   FractalView::~FractalView() {
@@ -78,8 +80,19 @@ namespace plot {
     }
   }
   void FractalView::updatePlot() {
+    if (calculator_.finished()) {
+      return;
+    }
+
     calculator_.update();
+    if (calculator_.finished()) {
+      auto drawDone = std::chrono::steady_clock::now();
+      auto drawTime = drawDone - drawStart_;
+      std::cout << std::string(80, '*') << '\n'
+                << std::format("\tDrawing took {:%S} s", drawTime) << '\n';
+    }
   }
+
   void FractalView::generateOutput() {
     if (int error = SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
         error) {

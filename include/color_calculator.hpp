@@ -18,6 +18,7 @@ namespace plot {
     Color findColor(Canvas::Point point);
 
     void update();
+    bool finished() const { return finished_; }
 
    private:
     std::vector<Color> palette_;
