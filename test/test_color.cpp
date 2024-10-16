@@ -41,3 +41,39 @@ TEST(TestColor, GetAlpha) {
 
   EXPECT_EQ(expected, actual);
 }
+
+TEST(TestColor, InterpolateCenter) {
+  plot::Color expected = 0x15'EE'55'BB;
+
+  plot::Color first = 0x12'FF'00'BB;
+  plot::Color second = 0x18'DE'AA'BB;
+  double ratio = 0.5;
+
+  auto actual = plot::interpolate(first, second, ratio);
+
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(TestColor, InterpolateAllFirst) {
+  plot::Color expected = 0x12'FF'00'BB;
+
+  plot::Color first = 0x12'FF'00'BB;
+  plot::Color second = 0x18'DE'AA'BB;
+  double ratio = 0.0;
+
+  auto actual = plot::interpolate(first, second, ratio);
+
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(TestColor, InterpolateAllSecond) {
+  plot::Color expected = 0x18'DE'AA'BB;
+
+  plot::Color first = 0x12'FF'00'BB;
+  plot::Color second = 0x18'DE'AA'BB;
+  double ratio = 1.0;
+
+  auto actual = plot::interpolate(first, second, ratio);
+
+  EXPECT_EQ(expected, actual);
+}

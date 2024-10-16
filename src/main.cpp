@@ -11,17 +11,18 @@ using namespace std::chrono_literals;
 using std::operator""i;
 
 int main() {
-  auto canvas = std::make_shared<plot::Canvas>(-2.5 + 1.75i,
-                                               1.0 - 1.75i,
-                                               1000, 1000);
-  plot::ColorCalculator calculator({0x33CEFFFF,
-                                    0x3368FFFF,
-                                    0x6433FFFF,
-                                    0xCA33FFFF,
-                                    0xFF33CEFF,
-                                    0xFF3368FF},
+  auto canvas = std::make_shared<plot::Canvas>(-2.5 + 1.0i,
+                                               1.0 - 1.0i,
+                                               1365, 780);
+  plot::ColorCalculator calculator(/*{0x33'CE'FF'FF,
+                                    0x33'68'FF'FF,
+                                    0x64'33'FF'FF,
+                                    0xCA'33'FF'FF,
+                                    0xFF'33'CE'FF,
+                                    0xFF'33'68'FF}*/
+    {plot::RED, plot::GREEN, plot::BLUE},
                                    mandelbrot::escapeTime,
-    canvas);
+                                   canvas);
 
   auto view = plot::FractalView::init(std::move(canvas),
                                       std::move(calculator));

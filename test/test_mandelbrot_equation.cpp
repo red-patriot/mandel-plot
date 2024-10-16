@@ -44,7 +44,7 @@ class TestMandelbrotEscape : public ::testing::TestWithParam<tuple<size_t,
 TEST_P(TestMandelbrotEscape, Test) {
   auto& [expected, point] = GetParam();
 
-  auto actual = mandelbrot::escapeTime(point, 1000);
+  auto [actual, val] = mandelbrot::escapeTime(point, 1000);
 
   EXPECT_EQ(expected, actual);
 }

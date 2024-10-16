@@ -5,17 +5,18 @@ namespace mandelbrot {
     return (z_n * z_n) + c;
   }
 
-  size_t escapeTime(std::complex<double> c, size_t limit) {
+  plot::Escape escapeTime(std::complex<double> c, size_t limit) {
     static constexpr double THRESHOLD = 2.0;
+    plot::Escape ret;
 
-    std::complex<double> z = 0.0;
-    for (size_t iteration = 1; iteration <= limit; ++iteration) {
-      z = f(z, c);
-      if (std::abs(z) > THRESHOLD) {
-        return iteration;
+    ret.value = 0.0;
+    for (ret.iteration = 1; ret.iteration <= limit; ++ret.iteration) {
+      ret.value = f(ret.value, c);
+      if (std::abs(ret.value) > THRESHOLD) {
+        return ret;
       }
     }
-
-    return plot::DOES_NOT_ESCAPE;
+    ret.iteration = plot::DOES_NOT_ESCAPE;
+    return ret;
   }
 }  // namespace mandelbrot

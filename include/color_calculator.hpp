@@ -6,13 +6,14 @@
 
 #include "canvas.hpp"
 #include "color.hpp"
+#include "escape_constants.hpp"
 
 namespace plot {
   /** A Naive color calculator that calculates all colors in each row */
   class ColorCalculator {
    public:
     ColorCalculator(std::vector<Color> palette,
-                    size_t (*escapeFunction)(Canvas::Point c, size_t limit),
+                    Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                     std::shared_ptr<plot::Canvas> cavnvas = nullptr);
 
     Color findColor(Canvas::Point point);
@@ -22,7 +23,7 @@ namespace plot {
 
    private:
     std::vector<Color> palette_;
-    size_t (*escapeFunction_)(std::complex<double> c, size_t limit);
+    Escape (*escapeFunction_)(std::complex<double> c, size_t limit);
 
     std::shared_ptr<plot::Canvas> canvas_;
     bool finished_{false};

@@ -1,24 +1,38 @@
 #include "color_calculator.hpp"
 
+#include <cmath>
+#include <cassert>
+
 #include "escape_constants.hpp"
 
 using std::operator""i;
 
 namespace plot {
   ColorCalculator::ColorCalculator(std::vector<Color> palette,
-                                   size_t (*escapeFunction)(Canvas::Point c, size_t limit),
+                                   Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                                    std::shared_ptr<plot::Canvas> canvas) :
       palette_(std::move(palette)),
       escapeFunction_(escapeFunction),
       canvas_(canvas) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
-    auto iterations = escapeFunction_(point, 1000);
-    if (iterations == DOES_NOT_ESCAPE) {
+    auto [iteration, z] = escapeFunction_(point, 10);
+    if (iteration == DOES_NOT_ESCAPE) {
       return BLACK;
     }
 
-    return palette_[(iterations - 1) % palette_.size()];
+    double logZn = std::log(std::abs(z));
+    double nu = std::log(logZn / std::log(2)) / std::log(2);
+    double fracIteration = iteration + 1 - nu;
+
+    auto c1 = palette_[iteration % palette_.size()];
+    auto c2 = palette_[(iteration + 1) % palette_.size()];
+    double unused;
+    double fracPart = std::modf(fracIteration, &unused);
+    assert(fracPart < 1.0);
+    auto actualColor = interpolate(c1, c2, fracPart);
+
+    return actualColor;
   }
 
   void ColorCalculator::update() {

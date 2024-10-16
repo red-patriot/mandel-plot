@@ -22,6 +22,9 @@ namespace plot {
                      std::uint8_t green,
                      std::uint8_t blue,
                      std::uint8_t alpha);
+  Color interpolate(Color first,
+                    Color second,
+                    double ratio);
 
   std::uint8_t red(Color color);
   std::uint8_t green(Color color);
