@@ -16,23 +16,12 @@ namespace plot {
       canvas_(canvas) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
-    auto [iteration, z] = escapeFunction_(point, 10);
+    auto [iteration, z] = escapeFunction_(point, 1000);
     if (iteration == DOES_NOT_ESCAPE) {
       return BLACK;
     }
 
-    double logZn = std::log(std::abs(z));
-    double nu = std::log(logZn / std::log(2)) / std::log(2);
-    double fracIteration = iteration + 1 - nu;
-
-    auto c1 = palette_[iteration % palette_.size()];
-    auto c2 = palette_[(iteration + 1) % palette_.size()];
-    double unused;
-    double fracPart = std::modf(fracIteration, &unused);
-    assert(fracPart < 1.0);
-    auto actualColor = interpolate(c1, c2, fracPart);
-
-    return actualColor;
+    return palette_[iteration % palette_.size()];
   }
 
   void ColorCalculator::update() {
