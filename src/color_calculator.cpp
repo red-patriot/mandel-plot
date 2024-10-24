@@ -19,7 +19,7 @@ namespace plot {
       canvas_(canvas) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
-    auto [iteration, z] = escapeFunction_(point, 1000);
+    auto [iteration, z] = escapeFunction_(point, MAX_ITERATIONS);
     if (iteration == DOES_NOT_ESCAPE) {
       return noEscapeColor_;
     }

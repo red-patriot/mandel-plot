@@ -4,9 +4,8 @@
 #include <cstddef>
 
 namespace plot {
-  enum EscapeConstants : size_t {
-    DOES_NOT_ESCAPE = 0
-  };
+  static constexpr size_t DOES_NOT_ESCAPE = 0;
+  static constexpr size_t MAX_ITERATIONS = 10'000;
   static constexpr double ESCAPE_RADIUS = 100.0;
 
   struct Escape {
