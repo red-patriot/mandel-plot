@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cassert>
+#include <algorithm>
 
 #include "escape_constants.hpp"
 
@@ -21,7 +22,18 @@ namespace plot {
       return BLACK;
     }
 
-    return palette_[iteration % palette_.size()];
+    double logZn = std::log(std::abs(z));
+    double nu = std::log(logZn / std::log(plot::ESCAPE_RADIUS)) / std::log(2);
+    nu = iteration + 1 - nu;
+
+    auto color1 = palette_[iteration % palette_.size()];
+    auto color2 = palette_[(iteration + 1) % palette_.size()];
+    double unused;
+    nu = std::modf(nu, &unused);
+    assert(nu >= 0.0 && nu < 1.0);
+
+    auto color = interpolate(color1, color2, nu);
+    return color;
   }
 
   void ColorCalculator::update() {

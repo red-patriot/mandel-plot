@@ -6,7 +6,7 @@ namespace mandelbrot {
   }
 
   plot::Escape escapeTime(std::complex<double> c, size_t limit) {
-    static constexpr double THRESHOLD = 2.0;
+    static constexpr double THRESHOLD = plot::ESCAPE_RADIUS;
     plot::Escape ret;
 
     ret.value = 0.0;

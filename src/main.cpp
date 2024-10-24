@@ -14,13 +14,12 @@ int main() {
   auto canvas = std::make_shared<plot::Canvas>(-2.5 + 1.0i,
                                                1.0 - 1.0i,
                                                1365, 780);
-  plot::ColorCalculator calculator(/*{0x33'CE'FF'FF,
+  plot::ColorCalculator calculator({0x33'CE'FF'FF,
                                     0x33'68'FF'FF,
                                     0x64'33'FF'FF,
                                     0xCA'33'FF'FF,
                                     0xFF'33'CE'FF,
-                                    0xFF'33'68'FF}*/
-    {plot::RED, plot::GREEN, plot::BLUE},
+                                    0xFF'33'68'FF},
                                    mandelbrot::escapeTime,
                                    canvas);
 

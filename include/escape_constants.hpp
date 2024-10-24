@@ -7,6 +7,7 @@ namespace plot {
   enum EscapeConstants : size_t {
     DOES_NOT_ESCAPE = 0
   };
+  static constexpr double ESCAPE_RADIUS = 100.0;
 
   struct Escape {
     size_t iteration;

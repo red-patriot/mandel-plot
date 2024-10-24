@@ -50,8 +50,8 @@ TEST_P(TestMandelbrotEscape, Test) {
 }
 
 INSTANTIATE_TEST_SUITE_P(, TestMandelbrotEscape,
-                         ::testing::Values(tuple{1, 2.000001 + 0i},
-                                           tuple{2, 2.0i},
+                         ::testing::Values(tuple{1, 300.000001 + 0i},
+                                           tuple{4, 2.0i},
                                            tuple{plot::DOES_NOT_ESCAPE, -1.0 + 0i},
                                            tuple{plot::DOES_NOT_ESCAPE, -0.1 + 0.25i},
-                                           tuple{3, 0.5 + 0.75i}));
+                                           tuple{6, 0.5 + 0.75i}));

@@ -27,7 +27,7 @@ TEST_P(TestColorCalculator, CalculateColor) {
 INSTANTIATE_TEST_SUITE_P(, TestColorCalculator,
                          ::testing::Values(
                              tuple{plot::BLACK, 0.0 + 0.0i},
-                             tuple{0x33CEFFFF, 3.0 + 1.5i},
-                             tuple{0x3368FFFF, -0.7615925686316078 + 0.3774627599091196i},
-                             tuple{0xFF3368FF, -1.4264226680892969 - 0.047432573597014915i},
-                             tuple{0x33CEFFFF, 0.32636891459807016 + 0.4548624542701969i}));
+                             tuple{0xF3'33'D8'FF, 3.0 + 1.5i},
+                             tuple{0x88'8C'BF'FF, -0.7615925686316078 + 0.3774627599091196i},
+                             tuple{0xFA'33'D2'FF, -1.4264226680892969 - 0.047432573597014915i},
+                             tuple{0xFF'33'7F'FF, 0.32636891459807016 + 0.4548624542701969i}));
