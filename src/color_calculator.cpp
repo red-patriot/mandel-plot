@@ -10,16 +10,18 @@ using std::operator""i;
 
 namespace plot {
   ColorCalculator::ColorCalculator(std::vector<Color> palette,
+                                   Color noEscapeColor,
                                    Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                                    std::shared_ptr<plot::Canvas> canvas) :
       palette_(std::move(palette)),
+      noEscapeColor_(noEscapeColor),
       escapeFunction_(escapeFunction),
       canvas_(canvas) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
     auto [iteration, z] = escapeFunction_(point, 1000);
     if (iteration == DOES_NOT_ESCAPE) {
-      return BLACK;
+      return noEscapeColor_;
     }
 
     double logZn = std::log(std::abs(z));

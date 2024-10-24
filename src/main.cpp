@@ -20,6 +20,7 @@ int main() {
                                     0xCA'33'FF'FF,
                                     0xFF'33'CE'FF,
                                     0xFF'33'68'FF},
+                                   plot::WHITE,
                                    mandelbrot::escapeTime,
                                    canvas);
 

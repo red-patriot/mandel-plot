@@ -13,6 +13,7 @@ class TestColorCalculator : public ::testing::TestWithParam<tuple<plot::Color,
  protected:
   plot::ColorCalculator uut{
       {0x33CEFFFF, 0x3368FFFF, 0x6433FFFF, 0xCA33FFFF, 0xFF33CEFF, 0xFF3368FF},
+      plot::BLACK,
       mandelbrot::escapeTime};
 };
 

@@ -13,6 +13,7 @@ namespace plot {
   class ColorCalculator {
    public:
     ColorCalculator(std::vector<Color> palette,
+                    Color noEscapeColor,
                     Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                     std::shared_ptr<plot::Canvas> cavnvas = nullptr);
 
@@ -23,6 +24,7 @@ namespace plot {
 
    private:
     std::vector<Color> palette_;
+    Color noEscapeColor_;
     Escape (*escapeFunction_)(std::complex<double> c, size_t limit);
 
     std::shared_ptr<plot::Canvas> canvas_;
