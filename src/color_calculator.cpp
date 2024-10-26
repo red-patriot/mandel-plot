@@ -45,12 +45,14 @@ namespace plot {
     }
 
     // calculate 1 row of the plot at a time
+    auto currentRow = canvas_->row(currentRow_);
     for (currentCol_ = 0; currentCol_ != canvas_->width(); ++currentCol_) {
       auto point = canvas_->valueOf(currentCol_, currentRow_);
       auto color = findColor(point);
-      (*canvas_)(currentCol_, currentRow_) = color;
-      (*canvas_)(currentCol_, canvas_->height() - (currentRow_ + 1)) = color;
+      currentRow[currentCol_] = color;
     }
+    auto reflectedRow = canvas_->row(canvas_->height() - (currentRow_ + 1));
+    std::ranges::copy(currentRow, reflectedRow.begin());
 
     pointsLeft_ -= canvas_->width() * 2;  // 2 rows were colored on this iteration
 
