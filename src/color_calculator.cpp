@@ -16,7 +16,8 @@ namespace plot {
       palette_(std::move(palette)),
       noEscapeColor_(noEscapeColor),
       escapeFunction_(escapeFunction),
-      canvas_(canvas) { }
+      canvas_(canvas),
+      pointsLeft_(canvas->height() * canvas->width()) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
     auto [iteration, z] = escapeFunction_(point, MAX_ITERATIONS);
@@ -39,20 +40,21 @@ namespace plot {
   }
 
   void ColorCalculator::update() {
-    if (finished_ || !canvas_) {
+    if (finished() || !canvas_) {
       return;
     }
 
     // calculate 1 row of the plot at a time
     for (currentCol_ = 0; currentCol_ != canvas_->width(); ++currentCol_) {
       auto point = canvas_->valueOf(currentCol_, currentRow_);
-      (*canvas_)(currentCol_, currentRow_) = findColor(point);
+      auto color = findColor(point);
+      (*canvas_)(currentCol_, currentRow_) = color;
+      (*canvas_)(currentCol_, canvas_->height() - (currentRow_ + 1)) = color;
     }
 
+    pointsLeft_ -= canvas_->width() * 2;  // 2 rows were colored on this iteration
+
     ++currentRow_;
-    if (currentRow_ == canvas_->height()) {
-      finished_ = true;
-    }
   }
 
 }  // namespace plot

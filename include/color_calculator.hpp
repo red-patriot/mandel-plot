@@ -20,15 +20,15 @@ namespace plot {
     Color findColor(Canvas::Point point);
 
     void update();
-    bool finished() const { return finished_; }
+    bool finished() const { return pointsLeft_ == 0; }
 
    private:
     std::vector<Color> palette_;
     Color noEscapeColor_;
     Escape (*escapeFunction_)(std::complex<double> c, size_t limit);
+    size_t pointsLeft_;
 
     std::shared_ptr<plot::Canvas> canvas_;
-    bool finished_{false};
     size_t currentCol_{0};
     size_t currentRow_{0};
   };
