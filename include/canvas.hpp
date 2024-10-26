@@ -3,6 +3,7 @@
 
 #include <complex>
 #include <memory>
+#include <span>
 
 #include <SDL2/SDL_surface.h>
 
@@ -40,7 +41,7 @@ namespace plot {
     /** Accesses the color of the pixel at the given (x,y) coordinate */
     const Color& operator()(size_t x, size_t y) const;
 
-    Point valueOf(size_t x, size_t y) const; 
+    Point valueOf(size_t x, size_t y) const;
 
     /** Returns the maximum value of the canvas. */
     Point min() const { return min_; }
@@ -54,6 +55,8 @@ namespace plot {
     /** Returns a view of the points */
     View getAllValues() const;
 
+    std::span<Color> row(size_t y);
+
    private:
     std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points_;
     int width_;
@@ -66,8 +69,7 @@ namespace plot {
     static Point calculateMax(Point first, Point second);
 
     std::pair<size_t, size_t> indexOf(const Point& location) const;
-    Color& colorAt(void* pixels, size_t x, size_t y);
-    const Color& colorAt(void* pixels, size_t x, size_t y) const;
+    Color* colorAt(void* pixels, size_t x, size_t y) const;
   };
 }  // namespace plot
 

@@ -17,7 +17,7 @@ namespace plot {
       noEscapeColor_(noEscapeColor),
       escapeFunction_(escapeFunction),
       canvas_(canvas),
-      pointsLeft_(canvas->height() * canvas->width()) { }
+      pointsLeft_(canvas ? canvas->height() * canvas->width() : 0) { }
 
   Color ColorCalculator::findColor(Canvas::Point point) {
     auto [iteration, z] = escapeFunction_(point, MAX_ITERATIONS);

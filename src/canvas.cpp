@@ -28,18 +28,18 @@ namespace plot {
 
   Color& Canvas::operator[](const Point& location) {
     auto [x, y] = indexOf(location);
-    return colorAt(points_->pixels, x, y);
+    return *colorAt(points_->pixels, x, y);
   }
   const Color& Canvas::operator[](const Point& location) const {
     auto [x, y] = indexOf(location);
-    return colorAt(points_->pixels, x, y);
+    return *colorAt(points_->pixels, x, y);
   }
 
   Color& Canvas::operator()(size_t x, size_t y) {
-    return colorAt(points_->pixels, x, y);
+    return *colorAt(points_->pixels, x, y);
   }
   const Color& Canvas::operator()(size_t x, size_t y) const {
-    return colorAt(points_->pixels, x, y);
+    return *colorAt(points_->pixels, x, y);
   }
 
   Canvas::Point Canvas::valueOf(size_t x, size_t y) const {
@@ -61,6 +61,12 @@ namespace plot {
     return points_.get();
   }
 
+  std::span<Color> Canvas::row(size_t y) {
+    return {
+        colorAt(points_->pixels, 0, y),
+        static_cast<size_t>(width())};
+  }
+
   Canvas::Point Canvas::calculateMin(Canvas::Point first, Canvas::Point second) {
     return Point{std::min(first.real(), second.real()),
                  std::min(first.imag(), second.imag())};
@@ -77,19 +83,11 @@ namespace plot {
     return {column, row};
   }
 
-  Color& Canvas::colorAt(void* pixels, size_t x, size_t y) {
+  Color* Canvas::colorAt(void* pixels, size_t x, size_t y) const {
     if (y * width_ + x >= width_ * height_) {
       throw std::invalid_argument(std::format("Point ({}, {}) is off the the canvas",
                                               x, y));
     }
-    return reinterpret_cast<Color*>(pixels)[y * width_ + x];
-  }
-
-  const Color& Canvas::colorAt(void* pixels, size_t x, size_t y) const {
-    if (y * width_ + x >= width_ * height_) {
-      throw std::invalid_argument(std::format("Point ({}, {}) is off the the canvas",
-                                              x, y));
-    }
-    return reinterpret_cast<Color*>(pixels)[y * width_ + x];
+    return reinterpret_cast<Color*>(pixels) + (y * width_ + x);
   }
 }  // namespace plot
