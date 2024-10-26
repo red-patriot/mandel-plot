@@ -36,7 +36,8 @@ namespace plot {
 
     window_ = SDL_CreateWindow("Fractal",
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                               canvas_->width(), canvas_->height(), 0);
+                               static_cast<int>(canvas_->width()),
+                               static_cast<int>(canvas_->height()), 0);
     if (!window_) {
       throw std::runtime_error(std::format("Failed to create a window with error {}",
                                            SDL_GetError()));

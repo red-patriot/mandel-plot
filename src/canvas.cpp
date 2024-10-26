@@ -64,7 +64,7 @@ namespace plot {
   std::span<Color> Canvas::row(size_t y) {
     return {
         colorAt(points_->pixels, 0, y),
-        static_cast<size_t>(width())};
+        width()};
   }
 
   Canvas::Point Canvas::calculateMin(Canvas::Point first, Canvas::Point second) {

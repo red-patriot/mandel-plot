@@ -28,9 +28,9 @@ namespace plot {
            int width, int height);
 
     /** Returns the number of pixels wide the canvas is */
-    int width() const { return width_; }
+    size_t width() const { return width_; }
     /** Returns the number of pixels tall the canvas is */
-    int height() const { return height_; }
+    size_t height() const { return height_; }
 
     /** Accesses the color of the given complex point */
     [[deprecated]] Color& operator[](const Point& location);
