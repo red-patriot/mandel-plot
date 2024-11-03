@@ -24,8 +24,6 @@ namespace plot {
     auto reflectedRow = getCanvas().row(getCanvas().height() - (currentRow_ + 1));
     std::ranges::copy(currentRow, reflectedRow.begin());
 
-    logPoints(getCanvas().width() * 2);
-
     ++currentRow_;
   }
 

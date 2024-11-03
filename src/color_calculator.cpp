@@ -9,8 +9,14 @@ namespace plot {
       palette_(std::move(palette)),
       noEscapeColor_(noEscapeColor),
       escapeFunction_(escapeFunction),
-      canvas_(canvas),
-      pointsLeft_(canvas ? canvas->height() * canvas->width() : 0) { }
+      canvas_(canvas) { }
+
+  bool ColorCalculator::finished() const {
+    return std::none_of(canvas_->begin(), canvas_->end(),
+                        [](const Color& c) {
+                          return alpha(c) == 0;
+                        });
+  }
 
   Color ColorCalculator::findColor(Canvas::Point point) const {
     auto [iteration, z] = escapeFunction_(point, MAX_ITERATIONS);
@@ -29,11 +35,5 @@ namespace plot {
 
     auto color = interpolate(color1, color2, nu);
     return color;
-  }
-
-  void ColorCalculator::logPoints(size_t count) {
-    if (pointsLeft_ >= count) {
-      pointsLeft_ -= count;
-    }
   }
 }  // namespace plot
