@@ -1,4 +1,4 @@
-#include "color_calculator.hpp"
+#include "simple_calculator.hpp"
 
 #include <cmath>
 #include <cassert>
@@ -9,17 +9,17 @@
 using std::operator""i;
 
 namespace plot {
-  ColorCalculator::ColorCalculator(std::vector<Color> palette,
-                                   Color noEscapeColor,
-                                   Escape (*escapeFunction)(Canvas::Point c, size_t limit),
-                                   std::shared_ptr<plot::Canvas> canvas) :
+  SimpleCalculator::SimpleCalculator(std::vector<Color> palette,
+                                     Color noEscapeColor,
+                                     Escape (*escapeFunction)(Canvas::Point c, size_t limit),
+                                     std::shared_ptr<plot::Canvas> canvas) :
       palette_(std::move(palette)),
       noEscapeColor_(noEscapeColor),
       escapeFunction_(escapeFunction),
       canvas_(canvas),
       pointsLeft_(canvas ? canvas->height() * canvas->width() : 0) { }
 
-  Color ColorCalculator::findColor(Canvas::Point point) {
+  Color SimpleCalculator::findColor(Canvas::Point point) {
     auto [iteration, z] = escapeFunction_(point, MAX_ITERATIONS);
     if (iteration == DOES_NOT_ESCAPE) {
       return noEscapeColor_;
@@ -39,7 +39,7 @@ namespace plot {
     return color;
   }
 
-  void ColorCalculator::update() {
+  void SimpleCalculator::update() {
     if (finished() || !canvas_) {
       return;
     }

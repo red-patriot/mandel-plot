@@ -19,7 +19,7 @@ add_library(plot_lib
     "canvas.cpp"
     "color.cpp"
     "mandelbrot.cpp"
-    "color_calculator.cpp"
+    "simple_calculator.cpp"
 )
 
 target_compile_options(plot_lib

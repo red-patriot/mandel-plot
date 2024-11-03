@@ -11,7 +11,7 @@ namespace plot {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
   FractalView* FractalView::init(std::shared_ptr<plot::Canvas> canvas,
-                                 plot::ColorCalculator calculator) {
+                                 plot::SimpleCalculator calculator) {
     if (instance_) {
       return nullptr;
     }
@@ -21,7 +21,7 @@ namespace plot {
   }
 
   FractalView::FractalView(std::shared_ptr<plot::Canvas> canvas,
-                           plot::ColorCalculator calculator) :
+                           plot::SimpleCalculator calculator) :
       canvas_(std::move(canvas)),
       calculator_(std::move(calculator)) {
     if (instance_) {

@@ -2,22 +2,22 @@
 
 #include <gtest/gtest.h>
 
-#include "color_calculator.hpp"
+#include "simple_calculator.hpp"
 #include "mandelbrot.hpp"
 
 using std::tuple;
 using std::operator""i;
 
-class TestColorCalculator : public ::testing::TestWithParam<tuple<plot::Color,
+class TesSimpleCalculator : public ::testing::TestWithParam<tuple<plot::Color,
                                                                   plot::Canvas::Point>> {
  protected:
-  plot::ColorCalculator uut{
+  plot::SimpleCalculator uut{
       {0x33CEFFFF, 0x3368FFFF, 0x6433FFFF, 0xCA33FFFF, 0xFF33CEFF, 0xFF3368FF},
       plot::BLACK,
       mandelbrot::escapeTime};
 };
 
-TEST_P(TestColorCalculator, CalculateColor) {
+TEST_P(TesSimpleCalculator, CalculateColor) {
   auto [expected, point] = GetParam();
 
   auto actual = uut.findColor(point);
@@ -25,7 +25,7 @@ TEST_P(TestColorCalculator, CalculateColor) {
   EXPECT_EQ(expected, actual);
 }
 
-INSTANTIATE_TEST_SUITE_P(, TestColorCalculator,
+INSTANTIATE_TEST_SUITE_P(, TesSimpleCalculator,
                          ::testing::Values(
                              tuple{plot::BLACK, 0.0 + 0.0i},
                              tuple{0xF3'33'D8'FF, 3.0 + 1.5i},
