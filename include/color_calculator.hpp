@@ -9,7 +9,7 @@
 #include "escape_constants.hpp"
 
 namespace plot {
-  /** A Naive color calculator that calculates all colors in each row */
+  /** An interface for an object that performs color calculations */
   class ColorCalculator {
    public:
     ColorCalculator(std::vector<Color> palette,
@@ -17,10 +17,11 @@ namespace plot {
                     Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                     std::shared_ptr<plot::Canvas> cavnvas = nullptr);
 
-    Color findColor(Canvas::Point point);
-
-    void update();
+    virtual void update() = 0;
     bool finished() const { return pointsLeft_ == 0; }
+
+   protected:
+    Color findColor(Canvas::Point point) const;
 
    private:
     std::vector<Color> palette_;

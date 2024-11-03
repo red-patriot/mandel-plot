@@ -15,9 +15,10 @@ message(STATUS ${COMPILER_FLAGS})
 
 add_library(plot_lib
     STATIC
-    "fractal_view.cpp"
     "canvas.cpp"
     "color.cpp"
+    "color_calculator.cpp"
+    "fractal_view.cpp"
     "mandelbrot.cpp"
     "simple_calculator.cpp"
 )
