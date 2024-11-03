@@ -18,10 +18,14 @@ namespace plot {
                     std::shared_ptr<plot::Canvas> cavnvas = nullptr);
 
     virtual void update() = 0;
-    bool finished() const { return pointsLeft_ == 0; }
+    bool finished() const { return pointsLeft_ == 0 && canvas_; }
 
    protected:
     Color findColor(Canvas::Point point) const;
+
+    Canvas& getCanvas() const { return *canvas_; }
+
+    void logPoints(size_t count);
 
    private:
     std::vector<Color> palette_;
@@ -30,8 +34,6 @@ namespace plot {
     size_t pointsLeft_;
 
     std::shared_ptr<plot::Canvas> canvas_;
-    size_t currentCol_{0};
-    size_t currentRow_{0};
   };
 }  // namespace plot
 

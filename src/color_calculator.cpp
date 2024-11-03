@@ -29,4 +29,10 @@ namespace plot {
     auto color = interpolate(color1, color2, nu);
     return color;
   }
+
+  void ColorCalculator::logPoints(size_t count) {
+    if (pointsLeft_ >= count) {
+      pointsLeft_ -= count;
+    }
+  }
 }  // namespace plot
