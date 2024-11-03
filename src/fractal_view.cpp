@@ -11,17 +11,17 @@ namespace plot {
   std::unique_ptr<FractalView> FractalView::instance_{nullptr};
 
   FractalView* FractalView::init(std::shared_ptr<plot::Canvas> canvas,
-                                 plot::SimpleCalculator calculator) {
+                                 std::unique_ptr<plot::ColorCalculator> calculator) {
     if (instance_) {
       return nullptr;
     }
 
-    instance_ = std::make_unique<FractalView>(std::move(canvas), calculator);
+    instance_ = std::make_unique<FractalView>(std::move(canvas), std::move(calculator));
     return instance_.get();
   }
 
   FractalView::FractalView(std::shared_ptr<plot::Canvas> canvas,
-                           plot::SimpleCalculator calculator) :
+                           std::unique_ptr<plot::ColorCalculator> calculator) :
       canvas_(std::move(canvas)),
       calculator_(std::move(calculator)) {
     if (instance_) {
@@ -81,12 +81,12 @@ namespace plot {
     }
   }
   void FractalView::updatePlot() {
-    if (calculator_.finished()) {
+    if (calculator_->finished()) {
       return;
     }
 
-    calculator_.update();
-    if (calculator_.finished()) {
+    calculator_->update();
+    if (calculator_->finished()) {
       auto drawDone = std::chrono::steady_clock::now();
       auto drawTime = drawDone - drawStart_;
       std::cout << std::string(80, '*') << '\n'
