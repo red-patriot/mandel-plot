@@ -57,6 +57,11 @@ namespace plot {
 
     std::span<Color> row(size_t y);
 
+    Color* begin();
+    Color* end();
+    Color const* begin() const;
+    Color const* end() const;
+
    private:
     std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points_;
     int width_;
@@ -70,6 +75,7 @@ namespace plot {
 
     std::pair<size_t, size_t> indexOf(const Point& location) const;
     Color* colorAt(void* pixels, size_t x, size_t y) const;
+    Color* uncheckedColorAt(void* pixels, size_t x, size_t y) const;
   };
 }  // namespace plot
 

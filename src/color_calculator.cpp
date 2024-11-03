@@ -1,4 +1,5 @@
 #include "color_calculator.hpp"
+#include <algorithm>
 
 namespace plot {
   ColorCalculator::ColorCalculator(std::vector<Color> palette,

@@ -67,6 +67,19 @@ namespace plot {
         width()};
   }
 
+  Color* Canvas::begin() {
+    return uncheckedColorAt(points_->pixels, 0, 0);
+  }
+  Color* Canvas::end() {
+    return uncheckedColorAt(points_->pixels, width(), height() - 1);
+  }
+  Color const* Canvas::begin() const {
+    return uncheckedColorAt(points_->pixels, 0, 0);
+  }
+  Color const* Canvas::end() const {
+    return uncheckedColorAt(points_->pixels, width(), height() - 1);
+  }
+
   Canvas::Point Canvas::calculateMin(Canvas::Point first, Canvas::Point second) {
     return Point{std::min(first.real(), second.real()),
                  std::min(first.imag(), second.imag())};
@@ -88,6 +101,10 @@ namespace plot {
       throw std::invalid_argument(std::format("Point ({}, {}) is off the the canvas",
                                               x, y));
     }
+    return uncheckedColorAt(pixels, x, y);
+  }
+
+  Color* Canvas::uncheckedColorAt(void* pixels, size_t x, size_t y) const {
     return reinterpret_cast<Color*>(pixels) + (y * width_ + x);
   }
 }  // namespace plot

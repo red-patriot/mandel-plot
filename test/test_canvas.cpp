@@ -161,6 +161,43 @@ TEST(TestCanvas, AccessRow) {
   EXPECT_TRUE(std::ranges::equal(expected, actual));
 }
 
+TEST(TestCanvas, Begin) {
+  plot::Color expected = 0x00'01'05'00;
+  plot::Canvas::Point smallestPoint = -1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 1.0 + 1.0i;
+  int width = 10;
+  int height = 40;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, width, height};
+  for (size_t y = 0; y != uut.height(); ++y) {
+    for (size_t x = 0; x != uut.width(); ++x) {
+      uut(x, y) = plot::combineColor(static_cast<uint8_t>(y),
+                                     01,
+                                     05,
+                                     static_cast<uint8_t>(x));
+    }
+  }
+
+  auto actual = uut.begin();
+
+  EXPECT_EQ(expected, *actual);
+}
+
+TEST(TestCanvas, End) {
+  plot::Canvas::Point smallestPoint = -1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 1.0 + 1.0i;
+  int width = 10;
+  int height = 40;
+
+  plot::Canvas uut{smallestPoint, greatestPoint, width, height};
+  auto expected = uut.width() * uut.height();
+
+  auto begin = uut.begin();
+  auto end = uut.end();
+
+  auto actual = end - begin;
+  EXPECT_EQ(expected, actual);
+}
 TEST(TestCanvas, CannotConstructWithNonPositiveWidth) {
   EXPECT_THROW(plot::Canvas c(0.0 - 1.0i, 1.0 + 1.0i, -5, 20), std::invalid_argument);
 }
