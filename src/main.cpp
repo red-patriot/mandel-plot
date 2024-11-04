@@ -5,6 +5,7 @@
 
 #include "canvas.hpp"
 #include "simple_calculator.hpp"
+#include "parallel_calculator.hpp"
 #include "fractal_view.hpp"
 #include "mandelbrot.hpp"
 
@@ -16,15 +17,16 @@ int main() {
                                                1.0 - 1.5i,
                                                1108, 950);
   std::unique_ptr<plot::ColorCalculator> calculator =
-      std::make_unique<plot::SimpleCalculator>(std::vector<plot::Color>{0x33'CE'FF'FF,
-                                                                        0x33'68'FF'FF,
-                                                                        0x64'33'FF'FF,
-                                                                        0xCA'33'FF'FF,
-                                                                        0xFF'33'CE'FF,
-                                                                        0xFF'33'68'FF},
-                                               plot::WHITE,
-                                               mandelbrot::escapeTime,
-                                               canvas);
+      std::make_unique<plot::ParallelCalculator>(8,
+                                                 std::vector<plot::Color>{0x33'CE'FF'FF,
+                                                                          0x33'68'FF'FF,
+                                                                          0x64'33'FF'FF,
+                                                                          0xCA'33'FF'FF,
+                                                                          0xFF'33'CE'FF,
+                                                                          0xFF'33'68'FF},
+                                                 plot::WHITE,
+                                                 mandelbrot::escapeTime,
+                                                 canvas);
 
   auto view = plot::FractalView::init(std::move(canvas),
                                       std::move(calculator));

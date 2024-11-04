@@ -20,8 +20,9 @@ add_library(plot_lib
     "color_calculator.cpp"
     "fractal_view.cpp"
     "mandelbrot.cpp"
+    "parallel_calculator.cpp"
     "simple_calculator.cpp"
-)
+    )
 
 target_compile_options(plot_lib
     PRIVATE
