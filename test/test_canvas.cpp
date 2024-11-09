@@ -198,6 +198,67 @@ TEST(TestCanvas, End) {
   auto actual = end - begin;
   EXPECT_EQ(expected, actual);
 }
+
+TEST(TestCanvas, CopyConstruct) {
+  plot::Canvas::Point smallestPoint = -1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 1.0 + 1.0i;
+  int width = 10;
+  int height = 40;
+
+  std::vector<plot::Color> expected{0x03'00'00'00, 0x03'00'00'01,
+                                    0x03'00'00'02, 0x03'00'00'03,
+                                    0x03'00'00'04, 0x03'00'00'05,
+                                    0x03'00'00'06, 0x03'00'00'07,
+                                    0x03'00'00'08, 0x03'00'00'09};
+
+  plot::Canvas uut{smallestPoint, greatestPoint, width, height};
+  for (size_t y = 0; y != uut.height(); ++y) {
+    for (size_t x = 0; x != uut.width(); ++x) {
+      uut(x, y) = plot::combineColor(static_cast<uint8_t>(y),
+                                     0,
+                                     0,
+                                     static_cast<uint8_t>(x));
+    }
+  }
+
+  plot::Canvas copy = uut;
+  auto actual = copy.row(3);
+
+  EXPECT_EQ(10, actual.size());
+  EXPECT_TRUE(std::ranges::equal(expected, actual));
+}
+
+TEST(TestCanvas, CopyAssign) {
+  plot::Canvas::Point smallestPoint = -1.0 - 1.0i;
+  plot::Canvas::Point greatestPoint = 1.0 + 1.0i;
+  int width = 10;
+  int height = 40;
+
+  std::vector<plot::Color> expected{0x03'00'00'00, 0x03'00'00'01,
+                                    0x03'00'00'02, 0x03'00'00'03,
+                                    0x03'00'00'04, 0x03'00'00'05,
+                                    0x03'00'00'06, 0x03'00'00'07,
+                                    0x03'00'00'08, 0x03'00'00'09};
+
+  plot::Canvas uut{smallestPoint, greatestPoint, width, height};
+  plot::Canvas copy{smallestPoint, greatestPoint, width, height};
+
+  for (size_t y = 0; y != uut.height(); ++y) {
+    for (size_t x = 0; x != uut.width(); ++x) {
+      uut(x, y) = plot::combineColor(static_cast<uint8_t>(y),
+                                     0,
+                                     0,
+                                     static_cast<uint8_t>(x));
+    }
+  }
+
+  copy = uut;
+  auto actual = copy.row(3);
+
+  EXPECT_EQ(10, actual.size());
+  EXPECT_TRUE(std::ranges::equal(expected, actual));
+}
+
 TEST(TestCanvas, CannotConstructWithNonPositiveWidth) {
   EXPECT_THROW(plot::Canvas c(0.0 - 1.0i, 1.0 + 1.0i, -5, 20), std::invalid_argument);
 }

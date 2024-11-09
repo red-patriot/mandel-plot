@@ -25,6 +25,36 @@ namespace plot {
       throw std::invalid_argument("Height must be greater than 0");
     }
   }
+  Canvas::Canvas(const Canvas& other) :
+      points_(SDL_CreateRGBSurface(0,
+                                   other.width_, other.height_, 32,
+                                   RED_MASK,
+                                   GREEN_MASK,
+                                   BLUE_MASK,
+                                   ALPHA_MASK),
+              SDL_FreeSurface),
+      width_(other.width_),
+      height_(other.height_),
+      min_(other.min_),
+      max_(other.max_) {
+    std::copy(other.begin(), other.end(), this->begin());
+  }
+
+  Canvas& Canvas::operator=(const Canvas& other) {
+    points_.reset(SDL_CreateRGBSurface(0,
+                                       other.width_, other.height_, 32,
+                                       RED_MASK,
+                                       GREEN_MASK,
+                                       BLUE_MASK,
+                                       ALPHA_MASK));
+    std::copy(other.begin(), other.end(), this->begin());
+    width_ = other.width_;
+    height_ = other.height_;
+    min_ = other.min_;
+    max_ = other.max_;
+
+    return *this;
+  }
 
   Color& Canvas::operator[](const Point& location) {
     auto [x, y] = indexOf(location);

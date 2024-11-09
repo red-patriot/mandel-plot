@@ -26,6 +26,11 @@ namespace plot {
     Canvas(const Point& firstPoint,
            const Point& secondPoint,
            int width, int height);
+    Canvas(const Canvas&);
+    Canvas(Canvas&&) = default;
+    ~Canvas() = default;
+    Canvas& operator=(const Canvas&);
+    Canvas& operator=(Canvas&&) = default;
 
     /** Returns the number of pixels wide the canvas is */
     size_t width() const { return width_; }
