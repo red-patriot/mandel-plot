@@ -1,6 +1,9 @@
 #ifndef MANDEL_PLOT_PARALLEL_CALCULATOR_HPP
 #define MANDEL_PLOT_PARALLEL_CALCULATOR_HPP
 
+#include <mutex>
+#include <shared_mutex>
+#include <span>
 #include <thread>
 #include <vector>
 
@@ -19,9 +22,19 @@ namespace plot {
     void update() override;
 
    private:
+    struct Pixel {
+      size_t x;
+      size_t y;
+    };
+    std::mutex claimInProgress_;
+    std::shared_mutex calculationInProgress_;
     std::vector<std::jthread> workers_;
+    Canvas bufferCanvas_;
+    std::vector<std::vector<bool>> claims_;
 
     void calculate(const std::stop_token& signal);
+
+    bool claim(std::span<Pixel> pixels);
   };
 }  // namespace plot
 
