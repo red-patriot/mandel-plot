@@ -1,10 +1,7 @@
 #include "parallel_calculator.hpp"
 
 #include <algorithm>
-#include <chrono>
 #include <functional>
-
-using namespace std::chrono_literals;
 
 namespace plot {
   ParallelCalculator::ParallelCalculator(size_t numberOfWorkers,
@@ -25,7 +22,6 @@ namespace plot {
   }
 
   void ParallelCalculator::update() {
-    std::this_thread::sleep_for(1ms);
     std::unique_lock lock(calculationInProgress_);
     getCanvas() = bufferCanvas_;
   }
