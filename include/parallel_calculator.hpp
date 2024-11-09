@@ -20,6 +20,7 @@ namespace plot {
                        std::shared_ptr<plot::Canvas> canvas = nullptr);
 
     void update() override;
+    void start() override;
 
    private:
     struct Pixel {

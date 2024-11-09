@@ -60,6 +60,7 @@ namespace plot {
   }
 
   void FractalView::showPlot() {
+    calculator_->start();
     while (running_) {
       handleInput();
       updatePlot();

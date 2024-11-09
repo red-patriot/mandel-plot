@@ -19,6 +19,7 @@ namespace plot {
 
     virtual void update() = 0;
     bool finished() const;
+    virtual void start() { }
 
    protected:
     Color findColor(Canvas::Point point) const;

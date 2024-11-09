@@ -16,14 +16,17 @@ namespace plot {
     }
 
     workers_.reserve(numberOfWorkers);
-    for (size_t i = 0; i < numberOfWorkers; ++i) {
-      workers_.emplace_back(std::bind_front(&ParallelCalculator::calculate, this));
-    }
   }
 
   void ParallelCalculator::update() {
     std::unique_lock lock(calculationInProgress_);
     getCanvas() = bufferCanvas_;
+  }
+
+  void ParallelCalculator::start() {
+    for (size_t i = 0; i < workers_.capacity(); ++i) {
+      workers_.emplace_back(std::bind_front(&ParallelCalculator::calculate, this));
+    }
   }
 
   void ParallelCalculator::calculate(const std::stop_token& signal) {
