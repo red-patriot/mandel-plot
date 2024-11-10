@@ -9,8 +9,7 @@ namespace plot {
                                          Color noEscapeColor,
                                          Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                                          std::shared_ptr<plot::Canvas> canvas) :
-      ColorCalculator(palette, noEscapeColor, escapeFunction, canvas),
-      bufferCanvas_(*canvas) {
+      ColorCalculator(palette, noEscapeColor, escapeFunction, canvas) {
     for (size_t i = 0; i != getCanvas().height(); ++i) {
       claims_.emplace_back(getCanvas().width(), false);
     }
@@ -19,8 +18,12 @@ namespace plot {
   }
 
   void ParallelCalculator::update() {
-    std::unique_lock lock(calculationInProgress_);
-    getCanvas() = bufferCanvas_;
+    static constexpr size_t MAX_ITERS = 1000;
+    std::pair<Pixel, Color> next;
+    for (size_t i = 0; i != MAX_ITERS && readyPoints_.try_dequeue(next); ++i) {
+      const auto& [point, color] = next;
+      getCanvas()(point.x, point.y) = color;
+    }
   }
 
   void ParallelCalculator::start() {
@@ -32,21 +35,20 @@ namespace plot {
   void ParallelCalculator::calculate(const std::stop_token& signal) {
     // For now, just find an available row to calculate
     std::vector<Pixel> pixels;
-    pixels.reserve(bufferCanvas_.width());
+    pixels.reserve(getCanvas().width());
     for (size_t y = 0;
-         !signal.stop_requested() && (y != bufferCanvas_.height());
+         !signal.stop_requested() && (y != getCanvas().height());
          ++y) {
       pixels.clear();
-      for (size_t x = 0; x != bufferCanvas_.width(); ++x) {
+      for (size_t x = 0; x != getCanvas().width(); ++x) {
         pixels.emplace_back(Pixel{x, y});
       }
 
       if (claim(pixels)) {
-        std::shared_lock lock(calculationInProgress_);
         for (const auto& [x, y] : pixels) {
-          auto point = bufferCanvas_.valueOf(x, y);
+          auto point = getCanvas().valueOf(x, y);
           auto color = findColor(point);
-          bufferCanvas_(x, y) = color;
+          readyPoints_.enqueue({Pixel{x, y}, color});
         }
       }
     }

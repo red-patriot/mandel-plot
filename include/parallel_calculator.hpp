@@ -6,6 +6,7 @@
 #include <span>
 #include <thread>
 #include <vector>
+#include <concurrentqueue/concurrentqueue.h>
 
 #include "color_calculator.hpp"
 
@@ -29,11 +30,11 @@ namespace plot {
       size_t x;
       size_t y;
     };
-    std::mutex claimInProgress_;              /**< Prevents races when workers try to claim pixels to calculate */
-    std::shared_mutex calculationInProgress_; /**< Prevents races over shared data */
-    std::vector<std::jthread> workers_;       /**< The parallel workers to perform calculations */
-    Canvas bufferCanvas_;                     /**< Buffer to perform calculations over in parallel */
-    std::vector<std::vector<bool>> claims_;   /**< Indicates which pixels are currently claimed */
+
+    moodycamel::ConcurrentQueue<std::pair<Pixel, Color>> readyPoints_; /**< Pixels which are ready to be displayed */
+    std::mutex claimInProgress_;                                       /**< Prevents races when workers try to claim pixels to calculate */
+    std::vector<std::jthread> workers_;                                /**< The parallel workers to perform calculations */
+    std::vector<std::vector<bool>> claims_;                            /**< Indicates which pixels are currently claimed */
 
     /** Performs calculations over the canvas until signaled to stop or done */
     void calculate(const std::stop_token& signal);
