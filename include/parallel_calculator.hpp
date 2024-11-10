@@ -33,8 +33,8 @@ namespace plot {
 
     moodycamel::ConcurrentQueue<std::pair<Pixel, Color>> readyPoints_; /**< Pixels which are ready to be displayed */
     std::mutex claimInProgress_;                                       /**< Prevents races when workers try to claim pixels to calculate */
-    std::vector<std::jthread> workers_;                                /**< The parallel workers to perform calculations */
     std::vector<std::vector<bool>> claims_;                            /**< Indicates which pixels are currently claimed */
+    std::vector<std::jthread> workers_;                                /**< The parallel workers to perform calculations */
 
     /** Performs calculations over the canvas until signaled to stop or done */
     void calculate(const std::stop_token& signal);

@@ -26,15 +26,17 @@ namespace plot {
     std::array<std::pair<Pixel, Color>, BULK_READS> next;
     for (size_t i = 0; i != MAX_ITERS; ++i) {
       size_t count = readyPoints_.try_dequeue_bulk(next.begin(), next.size());
-      std::span<std::pair<Pixel, Color>> toCopy{next.data(), count};
-      std::ranges::for_each(toCopy.begin(), toCopy.end(), [this](std::pair<Pixel, Color> n) {
-        const auto& [point, color] = n;
-        getCanvas()(point.x, point.y) = color;
-      });
+      std::span toCopy{next.data(), count};
+      std::ranges::for_each(toCopy.begin(), toCopy.end(),
+                            [this](const auto& n) {
+                              const auto& [point, color] = n;
+                              getCanvas()(point.x, point.y) = color;
+                            });
     }
   }
 
   void ParallelCalculator::start() {
+    workers_.clear();
     for (size_t i = 0; i < workers_.capacity(); ++i) {
       workers_.emplace_back(std::bind_front(&ParallelCalculator::calculate, this));
     }
