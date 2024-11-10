@@ -1,7 +1,10 @@
 #include "parallel_calculator.hpp"
 
 #include <algorithm>
+#include <chrono>
 #include <functional>
+
+using namespace std::chrono_literals;
 
 namespace plot {
   ParallelCalculator::ParallelCalculator(size_t numberOfWorkers,
@@ -18,11 +21,16 @@ namespace plot {
   }
 
   void ParallelCalculator::update() {
-    static constexpr size_t MAX_ITERS = 1000;
-    std::pair<Pixel, Color> next;
-    for (size_t i = 0; i != MAX_ITERS && readyPoints_.try_dequeue(next); ++i) {
-      const auto& [point, color] = next;
-      getCanvas()(point.x, point.y) = color;
+    static constexpr size_t MAX_ITERS = 100;
+    static constexpr size_t BULK_READS = 256;
+    std::array<std::pair<Pixel, Color>, BULK_READS> next;
+    for (size_t i = 0; i != MAX_ITERS; ++i) {
+      size_t count = readyPoints_.try_dequeue_bulk(next.begin(), next.size());
+      std::span<std::pair<Pixel, Color>> toCopy{next.data(), count};
+      std::ranges::for_each(toCopy.begin(), toCopy.end(), [this](std::pair<Pixel, Color> n) {
+        const auto& [point, color] = n;
+        getCanvas()(point.x, point.y) = color;
+      });
     }
   }
 
