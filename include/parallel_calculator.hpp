@@ -40,7 +40,7 @@ namespace plot {
     void calculate(const std::stop_token& signal);
 
     /** Claims the given pixels to calculate. Indicates if the pixels are available */
-    bool claim(std::span<Pixel> pixels);
+    bool claim(Pixel pixel);
   };
 }  // namespace plot
 

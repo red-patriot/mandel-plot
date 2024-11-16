@@ -43,19 +43,12 @@ namespace plot {
   }
 
   void ParallelCalculator::calculate(const std::stop_token& signal) {
-    // For now, just find an available row to calculate
-    std::vector<Pixel> pixels;
-    pixels.reserve(getCanvas().width());
+    // For now, just find any available pixel to calculate
     for (size_t y = 0;
          !signal.stop_requested() && (y != getCanvas().height());
          ++y) {
-      pixels.clear();
       for (size_t x = 0; x != getCanvas().width(); ++x) {
-        pixels.emplace_back(Pixel{x, y});
-      }
-
-      if (claim(pixels)) {
-        for (const auto& [x, y] : pixels) {
+        if (claim({x, y})) {
           auto point = getCanvas().valueOf(x, y);
           auto color = findColor(point);
           readyPoints_.enqueue({Pixel{x, y}, color});
@@ -64,20 +57,12 @@ namespace plot {
     }
   }
 
-  bool ParallelCalculator::claim(std::span<ParallelCalculator::Pixel> pixels) {
+  bool ParallelCalculator::claim(ParallelCalculator::Pixel pixel) {
     std::lock_guard lg(claimInProgress_);
-
-    if (std::none_of(pixels.begin(), pixels.end(),
-                     [this](const Pixel& p) -> bool {
-                       return claims_.at(p.y).at(p.x);
-                     })) {
-      std::for_each(pixels.begin(), pixels.end(),
-                    [this](const Pixel& p) {
-                      claims_.at(p.y).at(p.x) = true;
-                    });
+    if (!claims_.at(pixel.y).at(pixel.x)) {
+      claims_.at(pixel.y).at(pixel.x) = true;
       return true;
     }
-
     return false;
   }
 }  // namespace plot
