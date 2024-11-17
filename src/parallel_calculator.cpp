@@ -12,11 +12,8 @@ namespace plot {
                                          Color noEscapeColor,
                                          Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                                          std::shared_ptr<plot::Canvas> canvas) :
-      ColorCalculator(palette, noEscapeColor, escapeFunction, canvas) {
-    for (size_t i = 0; i != getCanvas().height(); ++i) {
-      claims_.emplace_back(getCanvas().width(), false);
-    }
-
+      ColorCalculator(palette, noEscapeColor, escapeFunction, canvas),
+      claims_(getCanvas().width(), getCanvas().height()) {
     workers_.reserve(numberOfWorkers);
   }
 
@@ -58,11 +55,6 @@ namespace plot {
   }
 
   bool ParallelCalculator::claim(ParallelCalculator::Pixel pixel) {
-    std::lock_guard lg(claimInProgress_);
-    if (!claims_.at(pixel.y).at(pixel.x)) {
-      claims_.at(pixel.y).at(pixel.x) = true;
-      return true;
-    }
-    return false;
+    return claims_.atomicClaim(pixel.x, pixel.y);
   }
 }  // namespace plot

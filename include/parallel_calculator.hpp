@@ -1,14 +1,13 @@
 #ifndef MANDEL_PLOT_PARALLEL_CALCULATOR_HPP
 #define MANDEL_PLOT_PARALLEL_CALCULATOR_HPP
 
-#include <mutex>
-#include <shared_mutex>
 #include <span>
 #include <thread>
 #include <vector>
 #include <concurrentqueue/concurrentqueue.h>
 
 #include "color_calculator.hpp"
+#include "claim_matrix.hpp"
 
 namespace plot {
   /** Performs color calculations in multiple threads to improve performance */
@@ -32,8 +31,7 @@ namespace plot {
     };
 
     moodycamel::ConcurrentQueue<std::pair<Pixel, Color>> readyPoints_; /**< Pixels which are ready to be displayed */
-    std::mutex claimInProgress_;                                       /**< Prevents races when workers try to claim pixels to calculate */
-    std::vector<std::vector<bool>> claims_;                            /**< Indicates which pixels are currently claimed */
+    ClaimMatrix claims_;                                               /**< Indicates which pixels are currently claimed */
     std::vector<std::jthread> workers_;                                /**< The parallel workers to perform calculations */
 
     /** Performs calculations over the canvas until signaled to stop or done */
