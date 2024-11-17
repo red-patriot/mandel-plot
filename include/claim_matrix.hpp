@@ -15,6 +15,8 @@ namespace plot {
 
       operator bool() const;
 
+      bool atomicClaim();
+
      private:
       std::atomic_uint16_t& element_;
       uint16_t mask_;
@@ -29,6 +31,7 @@ namespace plot {
 
     reference at(size_t x, size_t y);
     const_reference at(size_t x, size_t y) const;
+    bool atomicClaim(size_t x, size_t y);
 
    private:
     size_t width_;

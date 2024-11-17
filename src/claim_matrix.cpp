@@ -19,6 +19,11 @@ namespace plot {
     return createWrapper(x, y);
   }
 
+  bool ClaimMatrix::atomicClaim(size_t x, size_t y) {
+    auto element = this->at(x, y);
+    return element.atomicClaim();
+  }
+
   ClaimMatrix::reference ClaimMatrix::createWrapper(size_t x, size_t y) const {
     size_t xIndex = x / 16;
     size_t xShiftOffset = x % 16;
@@ -44,4 +49,8 @@ namespace plot {
     return static_cast<bool>(element_.load() & mask_);
   }
 
+  bool ClaimMatrix::BoolWrapperRef::atomicClaim() {
+    auto old = element_.fetch_or(mask_);
+    return !static_cast<bool>(old & mask_);
+  }
 }  // namespace plot
