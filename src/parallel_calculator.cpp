@@ -18,8 +18,8 @@ namespace plot {
   }
 
   void ParallelCalculator::update() {
-    static constexpr size_t MAX_ITERS = 100;
-    static constexpr size_t BULK_READS = 256;
+    static constexpr size_t MAX_ITERS = 256;
+    static constexpr size_t BULK_READS = 512;
     std::array<std::pair<Pixel, Color>, BULK_READS> next;
     for (size_t i = 0; i != MAX_ITERS; ++i) {
       size_t count = readyPoints_.try_dequeue_bulk(next.begin(), next.size());
