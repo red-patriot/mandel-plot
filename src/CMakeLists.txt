@@ -1,5 +1,6 @@
 find_package(SDL2 REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(argparse CONFIG REQUIRED)
  find_package(unofficial-concurrentqueue CONFIG REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -45,7 +46,8 @@ target_link_libraries(plot_lib
     PUBLIC
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
     Eigen3::Eigen
-     unofficial::concurrentqueue::concurrentqueue
+    argparse::argparse
+    unofficial::concurrentqueue::concurrentqueue
 )
 
 add_executable(${PROJECT_NAME}
