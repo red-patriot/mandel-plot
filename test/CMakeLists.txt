@@ -8,11 +8,12 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(mandelbrot_test
+  "test_argument_parse.cpp"
   "test_canvas.cpp"
-  "test_color.cpp"
-  "test_mandelbrot_equation.cpp"
-  "test_color_calculator.cpp"
   "test_claiming.cpp"
+  "test_color.cpp"
+  "test_color_calculator.cpp"
+  "test_mandelbrot_equation.cpp"
 )
 
 

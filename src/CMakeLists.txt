@@ -17,6 +17,7 @@ message(STATUS ${COMPILER_FLAGS})
 
 add_library(plot_lib
     STATIC
+    "argument_parse.cpp"
     "canvas.cpp"
     "color.cpp"
     "color_calculator.cpp"
