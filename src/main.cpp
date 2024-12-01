@@ -1,39 +1,31 @@
-#include <chrono>
-#include <limits>
-#include <memory>
-#include <thread>
 
+#include "argument_parse.hpp"
 #include "canvas.hpp"
-#include "simple_calculator.hpp"
-#include "parallel_calculator.hpp"
 #include "fractal_view.hpp"
 #include "mandelbrot.hpp"
+#include "parallel_calculator.hpp"
+#include "simple_calculator.hpp"
 
 using namespace std::chrono_literals;
 using std::operator""i;
 
-int main() {
-   // TODO: Parse arguments
+int main(int argc, char** argv) {
+  auto options = plot::parse(argc, argv);
 
-  //auto canvas = std::make_shared<plot::Canvas>(-2.5 + 1.5i,
-  //                                             1.0 - 1.5i,
-  //                                             1108, 950);
-  //std::unique_ptr<plot::ColorCalculator> calculator =
-  //    std::make_unique<plot::ParallelCalculator>(8,
-  //                                               std::vector<plot::Color>{0x33'CE'FF'FF,
-  //                                                                        0x33'68'FF'FF,
-  //                                                                        0x64'33'FF'FF,
-  //                                                                        0xCA'33'FF'FF,
-  //                                                                        0xFF'33'CE'FF,
-  //                                                                        0xFF'33'68'FF},
-  //                                               plot::BLACK,
-  //                                               mandelbrot::escapeTime,
-  //                                               canvas);
+  auto canvas = std::make_shared<plot::Canvas>(-2.5 + 1.5i,
+                                               1.0 - 1.5i,
+                                               1108, 950);
+  std::unique_ptr<plot::ColorCalculator> calculator =
+      std::make_unique<plot::ParallelCalculator>(8,
+                                                 options.palette,
+                                                 options.inColor,
+                                                 mandelbrot::escapeTime,
+                                                 canvas);
 
-  //auto view = plot::FractalView::init(std::move(canvas),
-  //                                    std::move(calculator));
+  auto view = plot::FractalView::init(std::move(canvas),
+                                      std::move(calculator));
 
-  //view->showPlot();
+  view->showPlot();
 
   return 0;
 }

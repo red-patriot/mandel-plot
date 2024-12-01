@@ -25,12 +25,7 @@ namespace plot {
                                             0xFF'33'CE'FF,
                                             0xFF'33'68'FF});
 
-    try {
-      program.parse_args(argc, argv);
-    } catch (const std::exception& e) {
-      std::cerr << e.what();
-      std::exit(1);
-    }
+    program.parse_args(argc, argv);
 
     Options results{.inColor = program.get<Color>("-c"),
                     .palette = program.get<std::vector<Color>>("-p")};
