@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
                                                1.0 - 1.5i,
                                                1108, 950);
   std::unique_ptr<plot::ColorCalculator> calculator =
-      std::make_unique<plot::ParallelCalculator>(8,
+      std::make_unique<plot::ParallelCalculator>(options.workerCount,
                                                  options.palette,
                                                  options.inColor,
                                                  mandelbrot::escapeTime,

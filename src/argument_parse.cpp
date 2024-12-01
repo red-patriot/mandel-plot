@@ -24,11 +24,17 @@ namespace plot {
                                             0xCA'33'FF'FF,
                                             0xFF'33'CE'FF,
                                             0xFF'33'68'FF});
+    program.add_argument("-w")
+        .scan<'u', size_t>()
+        .nargs(1)
+        .help("The color to use for points in the set")
+        .default_value<size_t>(8);
 
     program.parse_args(argc, argv);
 
     Options results{.inColor = program.get<Color>("-c"),
-                    .palette = program.get<std::vector<Color>>("-p")};
+                    .palette = program.get<std::vector<Color>>("-p"),
+                    .workerCount = program.get<size_t>("-w")};
 
     return results;
   }

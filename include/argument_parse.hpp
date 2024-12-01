@@ -14,6 +14,7 @@ namespace plot {
                                0xCA'33'FF'FF,
                                0xFF'33'CE'FF,
                                0xFF'33'68'FF};
+    size_t workerCount{8};
 
     friend bool operator==(const Options&, const Options&) = default;
   };
