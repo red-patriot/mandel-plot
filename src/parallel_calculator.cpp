@@ -34,14 +34,17 @@ namespace plot {
 
   void ParallelCalculator::start() {
     workers_.clear();
+    size_t step = getCanvas().height() / workers_.capacity();
     for (size_t i = 0; i < workers_.capacity(); ++i) {
-      workers_.emplace_back(std::bind_front(&ParallelCalculator::calculate, this));
+      workers_.emplace_back(std::bind_front(&ParallelCalculator::calculate, this),
+                            i * step);
     }
   }
 
-  void ParallelCalculator::calculate(const std::stop_token& signal) {
+  void ParallelCalculator::calculate(const std::stop_token& signal,
+                                     size_t startY) {
     // For now, just find any available pixel to calculate
-    for (size_t y = 0;
+    for (size_t y = startY;
          !signal.stop_requested() && (y != getCanvas().height());
          ++y) {
       for (size_t x = 0; x != getCanvas().width(); ++x) {
