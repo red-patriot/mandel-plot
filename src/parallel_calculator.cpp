@@ -13,7 +13,7 @@ namespace plot {
                                          Escape (*escapeFunction)(Canvas::Point c, size_t limit),
                                          std::shared_ptr<plot::Canvas> canvas) :
       ColorCalculator(palette, noEscapeColor, escapeFunction, canvas),
-      claims_(getCanvas().width(), getCanvas().height()) {
+      claims_(getCanvas().height()) {
     workers_.reserve(numberOfWorkers);
   }
 
@@ -47,8 +47,8 @@ namespace plot {
     for (size_t y = startY;
          !signal.stop_requested() && (y != getCanvas().height());
          ++y) {
-      for (size_t x = 0; x != getCanvas().width(); ++x) {
-        if (claim({x, y})) {
+      if (claim(y)) {
+        for (size_t x = 0; x != getCanvas().width(); ++x) {
           auto point = getCanvas().valueOf(x, y);
           auto color = findColor(point);
           readyPoints_.enqueue({Pixel{x, y}, color});
@@ -57,7 +57,7 @@ namespace plot {
     }
   }
 
-  bool ParallelCalculator::claim(ParallelCalculator::Pixel pixel) {
-    return claims_.atomicClaim(pixel.x, pixel.y);
+  bool ParallelCalculator::claim(size_t row) {
+    return claims_.atomicClaim(row);
   }
 }  // namespace plot

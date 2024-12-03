@@ -39,7 +39,7 @@ namespace plot {
                    size_t startY);
 
     /** Claims the given pixels to calculate. Indicates if the pixels are available */
-    bool claim(Pixel pixel);
+    bool claim(size_t row);
   };
 }  // namespace plot
 
