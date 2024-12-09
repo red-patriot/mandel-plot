@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <functional>
+#include <span>
 
 using namespace std::chrono_literals;
 
@@ -18,22 +19,16 @@ namespace plot {
   }
 
   void ParallelCalculator::update() {
-    static constexpr size_t MAX_ITERS = 256;
-    static constexpr size_t BULK_READS = 512;
-    std::array<std::pair<Pixel, Color>, BULK_READS> next;
-    for (size_t i = 0; i != MAX_ITERS; ++i) {
-      size_t count = readyPoints_.try_dequeue_bulk(next.begin(), next.size());
-      std::span toCopy{next.data(), count};
-      std::ranges::for_each(toCopy.begin(), toCopy.end(),
-                            [this](const auto& n) {
-                              const auto& [point, color] = n;
-                              getCanvas()(point.x, point.y) = color;
-                            });
-    }
+    std::this_thread::sleep_for(1ms);
+  }
+
+  bool ParallelCalculator::finished() const {
+    return stillWorking_.load() == 0;
   }
 
   void ParallelCalculator::start() {
     workers_.clear();
+    stillWorking_.store(static_cast<int>(workers_.capacity()));
     size_t step = getCanvas().height() / workers_.capacity();
     for (size_t i = 0; i < workers_.capacity(); ++i) {
       workers_.emplace_back(std::bind_front(&ParallelCalculator::calculate, this),
@@ -48,13 +43,18 @@ namespace plot {
          !signal.stop_requested() && (y != getCanvas().height());
          ++y) {
       if (claim(y)) {
+        std::vector<Color> calculatedRow(getCanvas().width(), BLACK);
         for (size_t x = 0; x != getCanvas().width(); ++x) {
           auto point = getCanvas().valueOf(x, y);
           auto color = findColor(point);
-          readyPoints_.enqueue({Pixel{x, y}, color});
+          calculatedRow.at(x) = color;
         }
+
+        getCanvas().setRow(y, calculatedRow);
       }
     }
+
+    stillWorking_.fetch_sub(1);
   }
 
   bool ParallelCalculator::claim(size_t row) {

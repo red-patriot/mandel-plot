@@ -10,7 +10,7 @@ using std::operator""i;
 
 namespace plot {
   void SimpleCalculator::update() {
-    if (finished()) {
+    if (getCanvas().finished()) {
       return;
     }
 

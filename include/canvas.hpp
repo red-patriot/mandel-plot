@@ -3,6 +3,7 @@
 
 #include <complex>
 #include <memory>
+#include <shared_mutex>
 #include <span>
 
 #include <SDL2/SDL_surface.h>
@@ -40,6 +41,8 @@ namespace plot {
     /** Returns the number of pixels tall the canvas is */
     size_t height() const { return height_; }
 
+    bool finished() const;
+
     /** Accesses the color of the given complex point */
     [[deprecated]] Color& operator[](const Point& location);
     /** Accesses the color of the given complex point */
@@ -65,6 +68,7 @@ namespace plot {
     DrawableView getDrawableView(SDL_Renderer* renderer) const;
 
     std::span<Color> row(size_t y);
+    void setRow(size_t y, std::span<Color> colors);
 
     Color* begin();
     Color* end();
@@ -72,6 +76,7 @@ namespace plot {
     Color const* end() const;
 
    private:
+    mutable std::shared_mutex writeLock_;
     std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)> points_;
     int width_;
     int height_;

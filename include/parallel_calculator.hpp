@@ -1,10 +1,9 @@
 #ifndef MANDEL_PLOT_PARALLEL_CALCULATOR_HPP
 #define MANDEL_PLOT_PARALLEL_CALCULATOR_HPP
 
-#include <span>
+#include <atomic>
 #include <thread>
 #include <vector>
-#include <concurrentqueue/concurrentqueue.h>
 
 #include "color_calculator.hpp"
 #include "claim_matrix.hpp"
@@ -24,13 +23,15 @@ namespace plot {
     /** Starts the calculations */
     void start() override;
 
+    bool finished() const override;
+
    private:
     struct Pixel {
       size_t x;
       size_t y;
     };
 
-    moodycamel::ConcurrentQueue<std::pair<Pixel, Color>> readyPoints_; /**< Pixels which are ready to be displayed */
+    std::atomic_int stillWorking_;
     ClaimMatrix claims_;                                               /**< Indicates which pixels are currently claimed */
     std::vector<std::jthread> workers_;                                /**< The parallel workers to perform calculations */
 

@@ -40,6 +40,7 @@ namespace plot {
     SDL_Window* window_{nullptr};                       /**< The SDL window to draw to. */
     SDL_Renderer* renderer_{nullptr};                   /**< The Renderer to use to display the window contents. */
     bool running_{true};                                /**< Indicates the main loop is still running. */
+    bool alreadyDone_{false};
 
     FractalView(const FractalView&) = delete;
     FractalView& operator=(const FractalView&) = delete;

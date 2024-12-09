@@ -82,7 +82,7 @@ namespace plot {
     }
   }
   void FractalView::updatePlot() {
-    if (calculator_->finished()) {
+    if (alreadyDone_) {
       return;
     }
 
@@ -92,6 +92,7 @@ namespace plot {
       auto drawTime = drawDone - drawStart_;
       std::cout << std::string(80, '*') << '\n'
                 << std::format("\tDrawing took {:%S} s", drawTime) << '\n';
+      alreadyDone_ = true;
     }
   }
 

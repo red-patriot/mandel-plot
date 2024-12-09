@@ -20,7 +20,7 @@ namespace plot {
     /** Performs one update of the canvas */
     virtual void update() = 0;
     /** Indicates that all calculations are finished */
-    bool finished() const;
+    virtual bool finished() const;
     /** Starts calculating pixel values */
     virtual void start() { }
 

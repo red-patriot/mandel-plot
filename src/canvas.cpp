@@ -1,5 +1,6 @@
 #include "canvas.hpp"
 
+#include <algorithm>
 #include <format>
 #include <stdexcept>
 
@@ -56,6 +57,14 @@ namespace plot {
     return *this;
   }
 
+  bool Canvas::finished() const {
+    std::unique_lock lk{writeLock_};
+    return std::none_of(begin(), end(),
+                        [](const Color& c) {
+                          return alpha(c) == 0;
+                        });
+  }
+
   Color& Canvas::operator[](const Point& location) {
     auto [x, y] = indexOf(location);
     return *colorAt(points_->pixels, x, y);
@@ -92,6 +101,7 @@ namespace plot {
   }
 
   Canvas::DrawableView Canvas::getDrawableView(SDL_Renderer* renderer) const {
+    std::unique_lock lk{writeLock_};
     return DrawableView(SDL_CreateTextureFromSurface(renderer, points_.get()),
                         SDL_DestroyTexture);
   }
@@ -100,6 +110,11 @@ namespace plot {
     return {
         colorAt(points_->pixels, 0, y),
         width()};
+  }
+
+  void Canvas::setRow(size_t y, std::span<Color> colors) {
+    std::shared_lock lk{writeLock_};
+    std::ranges::copy(colors, row(y).begin());
   }
 
   Color* Canvas::begin() {
