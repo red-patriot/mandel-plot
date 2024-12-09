@@ -91,6 +91,11 @@ namespace plot {
     return points_.get();
   }
 
+  Canvas::DrawableView Canvas::getDrawableView(SDL_Renderer* renderer) const {
+    return DrawableView(SDL_CreateTextureFromSurface(renderer, points_.get()),
+                        SDL_DestroyTexture);
+  }
+
   std::span<Color> Canvas::row(size_t y) {
     return {
         colorAt(points_->pixels, 0, y),

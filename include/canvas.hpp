@@ -6,6 +6,7 @@
 #include <span>
 
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_render.h>
 
 #include "color.hpp"
 
@@ -14,6 +15,8 @@ namespace plot {
    public:
     using Point = std::complex<double>;
     using View = SDL_Surface*;
+    using DrawableView = std::unique_ptr<SDL_Texture,
+                                         void (*)(SDL_Texture*)>;
 
     /**
      * Constructs a Canvas.
@@ -59,6 +62,7 @@ namespace plot {
 
     /** Returns a view of the points */
     View getAllValues() const;
+    DrawableView getDrawableView(SDL_Renderer* renderer) const;
 
     std::span<Color> row(size_t y);
 

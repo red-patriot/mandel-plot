@@ -107,11 +107,7 @@ namespace plot {
       return;
     }
 
-    std::unique_ptr<SDL_Texture,
-                    void (*)(SDL_Texture*)>
-        texture{SDL_CreateTextureFromSurface(renderer_,
-                                             canvas_->getAllValues()),
-                SDL_DestroyTexture};
+    auto texture = canvas_->getDrawableView(renderer_);
     SDL_RenderCopy(renderer_, texture.get(), nullptr, nullptr);
 
     SDL_RenderPresent(renderer_);
